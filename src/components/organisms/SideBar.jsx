@@ -26,7 +26,7 @@ const NavLink = styled(StyledBox)`
 `;
 
 const Nav = styled(StyledBox)`
-    background-color:${colors.sidebarBg};
+    background-color:${colors.side};
     height:100vh;
     width:15vw;
     min-width:190px;
@@ -64,7 +64,7 @@ const Bar = styled.span`
     background-color:#333;
     margin:3px;
 `;
-
+//@Todo navlink через map
 console.log(window.innerWidth);
 const SideBar = () => {
 	const [isActive,setIsActive] = useState(false);

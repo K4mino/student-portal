@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 //import styled from 'styled-components';
 
@@ -9,45 +9,51 @@ import Button from '../atoms/Button';
 import colors from '../constants/colors';
 import Link from '../atoms/Link';
 import Error from '../atoms/Error';
+import {emailRegex,passwordRegex,isInputEmpty} from '../utils/index';
 
 import { Wrapper } from './Registration';
-
+//@Todo после удачного логина сбрасывать рефы, навигейт, сделать кнопку для просмотра пароля, решить проблему с сдвигающей ошибкой подсказка pos:absolute
 const Login = () => {
 	const navigate = useNavigate();
 
-	const [isEmailNotValid,setIsEmailNotValid] = useState(false);
-	const [isPasswordNotValid,setIsPasswordNotValid] = useState(false);
-	const [email,setEmail] = useState('');
-	const [password,setPassword] = useState('');
+	const emailRef = useRef('');
+	const passwordRef = useRef('');
+	const [errorEmailMessage,setErrorEmailMessage] = useState(null);
+	const [errorPasswordMessage,setErrorPasswordMessage] = useState(null);
 
-	const emailRegex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/);
-	const passwordRegex =  new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/);
-
-	const emailValidation = (email) => {
-		if(!emailRegex.test(email)){
-			setIsEmailNotValid(true);
-		}else{
-			setIsEmailNotValid(false);
+	const handleLogin = () => {
+		if(isInputEmpty(emailRef.current.value) || isInputEmpty(passwordRef.current.value)){
+			return validateEmail();
 		}
+
+		if(errorEmailMessage || errorPasswordMessage){
+			return validateEmail();
+		}
+
+		alert('Success')
+	}
+
+	const handleEmailBlur = () => {
+		validateEmail();
 	};
 
-	const passwordValidation = (password) => {
-		if(!passwordRegex.test(password)){
-			setIsPasswordNotValid(true);
-		}else {
-			setIsPasswordNotValid(false);
-		}
-	};
+	const validateEmail = () => {
+		let emailValue = emailRef.current.value;
 
-	const login = () => {
-		if(isEmailNotValid == false && isPasswordNotValid == false && email !== '' && password !== ''){
-			navigate('/dashBoard');
+		if(isInputEmpty(emailValue)){
+			return setErrorEmailMessage('Email is empty')
 		}
 
-		if(email == '' || password == ''){
-			alert('Enter your email and password');
+		if(!emailRegex.test(emailValue)){
+			return setErrorEmailMessage('Email is not valid')
 		}
-	};
+
+		return setErrorEmailMessage(null);
+	}
+
+	const handleLoginNavigate = () => {
+		navigate('/dashBoard');
+	}
 	return (
 		<Wrapper>
 			<Box
@@ -67,20 +73,14 @@ const Login = () => {
 				>
           Вход
 				</Text>
-				{
-					isEmailNotValid && <Error>Bad format of email, please check it!</Error>
-				}
 				<Input 
-					onBlur={(e) => emailValidation(e.target.value)} 
-					onChange={(e)=> {setIsEmailNotValid(false) ;setEmail(e.target.value);}} 
+					errorMessage={errorEmailMessage}
+					ref={emailRef}
+					onBlur={handleEmailBlur}
 					placeholder='Ваш Email'
 					width='92%' />
-				{
-					isPasswordNotValid && <Error>Bad format of password, please check it!</Error>
-				}
-				<Input onBlur={(e) => passwordValidation(e.target.value)} 
-					onChange={(e)=> {setIsPasswordNotValid(false); setPassword(e.target.value);}}
-					value={password}
+				<Input 
+					ref={passwordRef}
 					placeholder='Ваш пароль' 
 					width='92%' 
 					type='password'/>
@@ -109,7 +109,7 @@ const Login = () => {
 					</Link>
 				</Box>
 				<Button
-					onClick={login}
+					onClick={handleLogin}
 					margin='0 0 24px'
 					backgroundColor='#5BAFFC'
 					width='100%'

@@ -2,7 +2,8 @@ import React from 'react';
 
 import Text from './Text';
 
-const Error = (props) => {
+const Error = ({errorMessage}) => {
+	console.log(errorMessage)
 	return (
 		<Text
 			color='#8B0000'
@@ -10,9 +11,8 @@ const Error = (props) => {
 			fontWeight='500'
 			textAlign='left'
 			width='100%'
-			props
 		>
-			{props.children}
+			{errorMessage}
 		</Text>
 	);
 };
