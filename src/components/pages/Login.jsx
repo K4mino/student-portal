@@ -1,18 +1,42 @@
-import React, { useState,useRef, useEffect} from 'react';
+import React, { useState,useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {BsFillEyeFill,BsFillEyeSlashFill} from 'react-icons/bs';
+import styled from 'styled-components';
 //import styled from 'styled-components';
 
 import Input from '../atoms/Input';
 import Box from '../atoms/Box';
-import Text from '../atoms/Text';
+import Text,{StyledText} from '../atoms/Text';
 import Button from '../atoms/Button';
 import colors from '../constants/colors';
 import Link from '../atoms/Link';
-import Error from '../atoms/Error';
 import {emailRegex,passwordRegex,isInputEmpty} from '../utils/index';
 
 import { Wrapper } from './Registration';
-//@Todo после удачного логина сбрасывать рефы, навигейт, сделать кнопку для просмотра пароля, решить проблему с сдвигающей ошибкой подсказка pos:absolute
+
+//@Todo после удачного логина сбрасывать рефы, навигейт, сделать кнопку для просмотра пароля,
+
+const InputWrapper = styled(StyledText)`
+	position:relative;
+	display:flex;
+	justify-content:center;
+	margin: 0 auto;
+	width:100%;
+`;
+
+const StyledEye = styled(BsFillEyeFill)`
+	position:absolute;
+	right:10px;
+	top:18px;
+`;
+
+const StyledEyeHide = styled(BsFillEyeSlashFill)`
+	position:absolute;
+	right:12px;
+	top:18px;
+`;
+
+
 const Login = () => {
 	const navigate = useNavigate();
 
@@ -20,6 +44,7 @@ const Login = () => {
 	const passwordRef = useRef('');
 	const [errorEmailMessage,setErrorEmailMessage] = useState(null);
 	const [errorPasswordMessage,setErrorPasswordMessage] = useState(null);
+	const [showPassword,setShowPassword] = useState(false);
 
 	const handleLogin = () => {
 		if(isInputEmpty(emailRef.current.value) || isInputEmpty(passwordRef.current.value)){
@@ -30,12 +55,8 @@ const Login = () => {
 			return validateEmail();
 		}
 
-		alert('Success')
+		handleLoginNavigate()
 	}
-
-	const handleEmailBlur = () => {
-		validateEmail();
-	};
 
 	const validateEmail = () => {
 		let emailValue = emailRef.current.value;
@@ -51,8 +72,33 @@ const Login = () => {
 		return setErrorEmailMessage(null);
 	}
 
+	const handleEmailBlur = () => {
+		validateEmail();
+	};
+
+	const validatePassword = () => {
+		let passwordValue = passwordRef.current.value;
+
+		if(isInputEmpty(passwordValue)){
+			return setErrorPasswordMessage('Password is empty')
+		}
+
+		if(!passwordRegex.test(passwordValue)){
+			return setErrorPasswordMessage('Password is not valid')
+		}
+
+		return setErrorPasswordMessage(null)
+	}
+
+	const handlePasswordBlur = () => {
+		validatePassword();
+	}
+
 	const handleLoginNavigate = () => {
+		emailRef.current.value = '';
+		passwordRef.current.value = '';
 		navigate('/dashBoard');
+		
 	}
 	return (
 		<Wrapper>
@@ -66,24 +112,35 @@ const Login = () => {
 					textAlign='left'
 					width='95%'
 					fontFamily='Inter'
-					margin='0px 0px 24px'
+					margin='0px 0px 30px'
 					color='#fff'
 					fontSize='1.3em'
 					fontWeight='600'
 				>
           Вход
 				</Text>
-				<Input 
-					errorMessage={errorEmailMessage}
-					ref={emailRef}
-					onBlur={handleEmailBlur}
-					placeholder='Ваш Email'
-					width='92%' />
-				<Input 
-					ref={passwordRef}
-					placeholder='Ваш пароль' 
-					width='92%' 
-					type='password'/>
+				<InputWrapper>
+					<Input
+						top='-23%'
+						left='0.6rem'
+						errorMessage={errorEmailMessage}
+						ref={emailRef}
+						onBlur={handleEmailBlur}
+						placeholder='Ваш Email'
+						width='92%' />
+				</InputWrapper>
+				<InputWrapper>
+					<Input 
+						top='-23%'
+						left='0.6rem'
+						ref={passwordRef}
+						errorMessage={errorPasswordMessage}
+						placeholder='Ваш пароль' 
+						onBlur={handlePasswordBlur}
+						width='100%' 
+						type={showPassword ? 'text':'password'}/>
+					{showPassword ? <StyledEye onClick={() => setShowPassword(prev => !prev)}/> : <StyledEyeHide onClick={() => setShowPassword(prev => !prev)}/>}
+				</InputWrapper>
 				<Box width='100%' 
 					justifyContent='space-between' 
 					flexDirection='row'>
@@ -109,7 +166,7 @@ const Login = () => {
 					</Link>
 				</Box>
 				<Button
-					onClick={handleLogin}
+					onClick={() => handleLogin()}
 					margin='0 0 24px'
 					backgroundColor='#5BAFFC'
 					width='100%'

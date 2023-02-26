@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledText = styled.div`
+export const StyledText = styled.div`
   text-align:center;
+  position:relative;
 
   ${({ fontSize }) => fontSize && `font-size:${fontSize}`};
   ${({ color }) => color && `color:${color}`};
@@ -30,6 +31,7 @@ const Text = (props) => {
 			color={props.color}
 			fontWeight={props.fontWeight}
 			textDecoration={props.textDecoration}
+			props
 		>
 			{props.children}
 		</StyledText>

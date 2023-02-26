@@ -1,19 +1,28 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import Text from './Text';
+import {StyledText}from './Text';
 
-const Error = ({errorMessage}) => {
-	console.log(errorMessage)
+const StyledError = styled(StyledText)`
+	position:absolute;
+	color:#8B0000;
+	font-size:0.9rem;
+	font-weight:500;
+	text-align:left;
+	width:100%;
+
+	${({top}) => top && `top:${top}`};
+	${({left}) => left && `left:${left}`};
+`
+
+const Error = ({errorMessage,top,left}) => {
+
 	return (
-		<Text
-			color='#8B0000'
-			fontSize='0.9rem'
-			fontWeight='500'
-			textAlign='left'
-			width='100%'
-		>
+		<StyledError 
+		top={top} 
+		left={left}>
 			{errorMessage}
-		</Text>
+		</StyledError>
 	);
 };
 

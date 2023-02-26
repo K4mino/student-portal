@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BsPersonCircle ,BsHddStack,BsCalendar,BsJournals,BsBook,BsChatLeft,BsXLg} from 'react-icons/bs';
+import {BsXLg} from 'react-icons/bs';
 import styled from 'styled-components';
 
 import logo from '../../images/sidebarlogo.png';
@@ -7,6 +7,7 @@ import Img from '../atoms/Img';
 import Text from '../atoms/Text';
 import colors from '../constants/colors';
 import { StyledBox } from '../atoms/Box';
+import {navigation} from '../utils/nav';
 
 const NavLink = styled(StyledBox)`
     display:flex;
@@ -26,7 +27,7 @@ const NavLink = styled(StyledBox)`
 `;
 
 const Nav = styled(StyledBox)`
-    background-color:${colors.side};
+    background-color:${colors.boxBackground.thirdColor};
     height:100vh;
     width:15vw;
     min-width:190px;
@@ -64,7 +65,6 @@ const Bar = styled.span`
     background-color:#333;
     margin:3px;
 `;
-//@Todo navlink через map
 console.log(window.innerWidth);
 const SideBar = () => {
 	const [isActive,setIsActive] = useState(false);
@@ -83,7 +83,18 @@ const SideBar = () => {
 				<Img margin='10px 0 90px'
 					src={logo}
 					alt='logo' />
-				<NavLink>
+				{
+					navigation.map((nav) => {
+						let Icon = nav.icon; 
+						return (
+						<NavLink key={nav.icon}>
+							<Icon color={nav.color}/>
+							<Text>{nav.label}</Text>
+						</NavLink>
+						)
+					})
+				}
+			{/* 	<NavLink>
 					<BsPersonCircle color='#2E5BF0'/>
 					<Text fontSize='0.9rem'>Профиль</Text>
 				</NavLink>
@@ -107,7 +118,7 @@ const SideBar = () => {
 				<NavLink>
 					<BsChatLeft color='#2E5BF0'/>   
 					<Text fontSize='0.9rem'>Чаты</Text>
-				</NavLink>
+				</NavLink> */}
 			</Nav>
 		</>
 	);
