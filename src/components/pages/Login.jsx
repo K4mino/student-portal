@@ -14,8 +14,6 @@ import {emailRegex,passwordRegex,isInputEmpty} from '../utils/index';
 
 import { Wrapper } from './Registration';
 
-//@Todo после удачного логина сбрасывать рефы, навигейт, сделать кнопку для просмотра пароля,
-
 const InputWrapper = styled(StyledText)`
 	position:relative;
 	display:flex;
@@ -55,22 +53,22 @@ const Login = () => {
 			return validateEmail();
 		}
 
-		handleLoginNavigate()
-	}
+		handleLoginNavigate();
+	};
 
 	const validateEmail = () => {
 		let emailValue = emailRef.current.value;
 
 		if(isInputEmpty(emailValue)){
-			return setErrorEmailMessage('Email is empty')
+			return setErrorEmailMessage('Email is empty');
 		}
 
 		if(!emailRegex.test(emailValue)){
-			return setErrorEmailMessage('Email is not valid')
+			return setErrorEmailMessage('Email is not valid');
 		}
 
 		return setErrorEmailMessage(null);
-	}
+	};
 
 	const handleEmailBlur = () => {
 		validateEmail();
@@ -80,26 +78,26 @@ const Login = () => {
 		let passwordValue = passwordRef.current.value;
 
 		if(isInputEmpty(passwordValue)){
-			return setErrorPasswordMessage('Password is empty')
+			return setErrorPasswordMessage('Password is empty');
 		}
 
 		if(!passwordRegex.test(passwordValue)){
-			return setErrorPasswordMessage('Password is not valid')
+			return setErrorPasswordMessage('Password is not valid');
 		}
 
-		return setErrorPasswordMessage(null)
-	}
+		return setErrorPasswordMessage(null);
+	};
 
 	const handlePasswordBlur = () => {
 		validatePassword();
-	}
+	};
 
 	const handleLoginNavigate = () => {
 		emailRef.current.value = '';
 		passwordRef.current.value = '';
 		navigate('/dashBoard');
 		
-	}
+	};
 	return (
 		<Wrapper>
 			<Box
@@ -121,6 +119,7 @@ const Login = () => {
 				</Text>
 				<InputWrapper>
 					<Input
+						value='erzhan@mail.ru'
 						top='-23%'
 						left='0.6rem'
 						errorMessage={errorEmailMessage}
@@ -131,6 +130,7 @@ const Login = () => {
 				</InputWrapper>
 				<InputWrapper>
 					<Input 
+						value='QWEety12323$'
 						top='-23%'
 						left='0.6rem'
 						ref={passwordRef}

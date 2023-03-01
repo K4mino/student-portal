@@ -5,7 +5,7 @@ import colors from '../constants/colors';
 import Error from './Error';
 import spacings from '../constants/spacings';
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
 	border-radius:13px;
 	border:none;
 	outline:none;
@@ -23,18 +23,18 @@ const Input = React.forwardRef(({placeholder = '',width,type = 'text',onChange,o
 
 	return (
 		<>
-		{errorMessage && <Error 
-		top={top} 
-		left={left} 
-		errorMessage={errorMessage}/>}
-		<StyledInput 
-			value={value} 
-			placeholder={placeholder} 
-			width={width} 
-			type={type} 
-			onChange={onChange}
-			onBlur={onBlur}
-			ref={ref}
+			{errorMessage && <Error 
+				top={top} 
+				left={left} 
+				errorMessage={errorMessage}/>}
+			<StyledInput 
+				value={value} 
+				placeholder={placeholder} 
+				width={width} 
+				type={type} 
+				onChange={onChange}
+				onBlur={onBlur}
+				ref={ref}
 			/>
 		</>
 	);

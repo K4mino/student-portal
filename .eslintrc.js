@@ -24,20 +24,20 @@ module.exports ={
 	],
 	'rules': {
 		'indent': [
-			'warning',
+			'warn',
 			'tab'
 		],
 		'line-break-style': 0,
 		'quotes': [
-			'warning',
+			'warn',
 			'single'
 		],
 		'semi': [
-			'warning',
+			'warn',
 			'always'
 		],
 		'jsx-quotes':[
-			'warning',
+			'warn',
 			'prefer-single'
 		],
 		'react/prop-types': 'off',

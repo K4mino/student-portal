@@ -27,11 +27,12 @@ const NavLink = styled(StyledBox)`
 `;
 
 const Nav = styled(StyledBox)`
-    background-color:${colors.boxBackground.thirdColor};
+    background-color:#EDEEF2;
     height:100vh;
     width:15vw;
     min-width:190px;
-    align-items:flex-start;
+    justify-content:flex-start;
+	align-items:flex-start;
     transition:transform .1s ease-in-out;
 
     @media(max-width:770px){
@@ -77,7 +78,7 @@ const SideBar = () => {
 			</BurgerMenu>
 			<Nav className={isActive ? 'active':''}>
 				<BsXLg
-					display={window.innerWidth < 770 ? 'block':'none'}
+					className='closeTabBtn'
 					onClick={() => setIsActive(!isActive)}
 					fontSize='1.3rem'/>
 				<Img margin='10px 0 90px'
@@ -87,14 +88,14 @@ const SideBar = () => {
 					navigation.map((nav) => {
 						let Icon = nav.icon; 
 						return (
-						<NavLink key={nav.icon}>
-							<Icon color={nav.color}/>
-							<Text>{nav.label}</Text>
-						</NavLink>
-						)
+							<NavLink key={nav.icon}>
+								<Icon color={nav.color}/>
+								<Text>{nav.label}</Text>
+							</NavLink>
+						);
 					})
 				}
-			{/* 	<NavLink>
+				{/* 	<NavLink>
 					<BsPersonCircle color='#2E5BF0'/>
 					<Text fontSize='0.9rem'>Профиль</Text>
 				</NavLink>
