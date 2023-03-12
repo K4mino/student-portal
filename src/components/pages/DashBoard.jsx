@@ -1,38 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Select	} from 'antd';
+import { Calendar} from 'antd';
 
-import PageTitle from '../atoms/PageTitle';
+import Layout from '../Layout';
 import spacings from '../constants/spacings';
-import Searchbar from '../organisms/Searchbar';
 import colors from '../constants/colors';
 import vector from '../../images/Vector.png';
 import activeVector from '../../images/activeVector.png';
-//import { weekDays } from '../utils/calendar';
-import SideBar from '../organisms/SideBar';
-//import { StyledText } from '../atoms/Text';
-import CustomCalendar from '../organisms/CustomCalendar';
+import DailyStatus from '../atoms/DailyStatus';
 
-
-const Wrapper = styled.div`
-	display:flex;
-	width:100vw;
-	height:max-content;
-	overflow:auto;
-`;
-
-const Header = styled.div`
-	display:flex;
-	justify-content:space-between;
-	width:70vw;
-	height:15%;
-	padding:${spacings.large} ${spacings.large} 0;
-`;
 
 const Content = styled.div`
 	display:flex;
 	flex-direction:column;
 	margin-bottom:5%;
+	width:99%;
 `;
 
 const DateHeader = styled.div`
@@ -64,7 +46,7 @@ const SubTitle = styled.div`
 		height:100%;
 		width:2px;
 		position:absolute;
-		right:-30px;
+		right:-35%;
 		top:0;
 	}
 `;
@@ -99,71 +81,29 @@ const DateSwitchers = styled.div`
 	display:flex;
 `;
 
-/* const Week = styled.div`
-	display:flex;
-	width:80vw;
-	background-color:#F9FBFC;
-	padding:${spacings.small};
-	border-radius:16px;
-	overflow:hidden;
-`;
 
-const WeekDay = styled(StyledText)`
-	color:#000;
-	font-size:0.9rem;
-	text-align:center;
-	width:17%;
-`; */
-
-const DashBoard = () => {
-	const [currentDate,setCurrentDate] = React.useState(new Date());
-
-	return (
-		<Wrapper>
-			<SideBar className='sidebar'/>
-			<Content className='content'>
-				<Header className='dashboard__header'>
-					<PageTitle>Расписание</PageTitle>
-					<Searchbar></Searchbar>
-				</Header>
-				<DateHeader className='date__header'>
-					<DateInterface>
-						<SubTitle>Задания</SubTitle>
-						<CurrentDate>Март, 2023</CurrentDate>
-						<DateSwitchers>
-							<DateSwitch borderRadius='13px 0 0 13px'/>
-							<DateSwitch
-								className='active'
-								borderRadius='0 13px 13px 0'/>
-						</DateSwitchers>
-					</DateInterface>
-					<Select
-						size='large'
-						defaultValue='2023'
-						style={{ width: '20%' }}
-						options={[
-							{ value: '2022', label: '2022' },
-							{ value:'2023', label:'2023'}
-						]}
-					/>
-				</DateHeader>
-				{/* 
-				<Week>
-					{weekDays.map((day) => (
-						<WeekDay key={day.label}>{day.label}</WeekDay>
-					))}
-				</Week>
-				<CalendarDays>
-					{currentMonthDays.map((day) => (
-						<Day key={day.date}>{day.dayOfMonth}</Day>
-					))}
-				</CalendarDays> */}
-				<CustomCalendar
-					nexDate={setCurrentDate}
-					value={currentDate} />
-			</Content>
-		</Wrapper>
-	);
-};
+function DashBoard() {
+  return (
+    <Layout pageTitle='Расписание'>
+      <Content>
+        <DateHeader className='date__header'>
+          <DateInterface>
+            <SubTitle>Задания</SubTitle>
+            <CurrentDate>Март, 2023</CurrentDate>
+            <DateSwitchers>
+              <DateSwitch borderRadius='13px 0 0 13px'/>
+              <DateSwitch
+                className='active'
+                borderRadius='0 13px 13px 0'/>
+            </DateSwitchers>
+          </DateInterface>
+        </DateHeader>
+        <Calendar 
+          dateCellRender={(date) => <DailyStatus date={date}/>}/>
+      </Content>
+    </Layout>
+		
+  );
+}
 
 export default DashBoard;

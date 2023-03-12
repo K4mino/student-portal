@@ -1,20 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import{ StyledText } from './Text';
+import{ Text } from './Text';
 
-const Title = styled(StyledText)`
+const Title = styled(Text)`
     font-size:1.6rem;
     font-weight:600;
     color:#000000;
 `;
 
-const PageTitle = (props) => {
-	return (
-		<Title>
-			{props.children}
-		</Title>
-	);
-};
+function PageTitle({pageTitle}) {
+  return (
+    <Title>
+      {pageTitle}
+    </Title>
+  );
+}
 
 export default PageTitle;

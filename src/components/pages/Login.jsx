@@ -1,189 +1,203 @@
-import React, { useState,useRef} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {BsFillEyeFill,BsFillEyeSlashFill} from 'react-icons/bs';
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import styled from 'styled-components';
-//import styled from 'styled-components';
-
-import Input from '../atoms/Input';
-import Box from '../atoms/Box';
-import Text,{StyledText} from '../atoms/Text';
-import Button from '../atoms/Button';
+import { Form } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
+//убрать circular dependencies
+//сделать barelink для атомов, организмов, и констант
+import {Box,Text} from '../atoms';
+import FormInput from '../atoms/FormInput';
+import  { StyledButton } from '../atoms/Button';
 import colors from '../constants/colors';
-import Link from '../atoms/Link';
-import {emailRegex,passwordRegex,isInputEmpty} from '../utils/index';
-
+import { emailRegex, passwordRegex, isInputEmpty } from '../utils/index';
 import { Wrapper } from './Registration';
 
-const InputWrapper = styled(StyledText)`
-	position:relative;
-	display:flex;
-	justify-content:center;
-	margin: 0 auto;
-	width:100%;
+const InputWrapper = styled(Text)`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+`;
+// не тянуть styled компоменты друг из друга 
+const StyledEyeIcon = styled(BsFillEyeFill)`
+  font-size:1rem;
+  position: absolute;
+  right: 12px;
+  top: 21px;
 `;
 
-const StyledEye = styled(BsFillEyeFill)`
-	position:absolute;
-	right:10px;
-	top:18px;
+const StyledEyeHideIcon = styled(BsFillEyeSlashFill)`
+  font-size:1rem;
+  position: absolute;
+  right: 12px;
+  top: 21px;
 `;
 
-const StyledEyeHide = styled(BsFillEyeSlashFill)`
-	position:absolute;
-	right:12px;
-	top:18px;
+export const StyledLink = styled(Text)`
+  width:40%;
+  font-size:0.8rem;
+  color:#fff;
+  font-weight:400;
+  text-decoration:underline;
+  cursor:pointer;
+  font-family:Inter;
+
+  ${({ width }) => width && `width:${width}`};
+  ${({ textAlign }) => textAlign && `text-align:${textAlign}`};
+ `;
+
+export const Title = styled(Text)`
+  text-align:left;
+  width:95%;
+  font-family:Inter;
+  margin:0px 0px 30px;
+  color:#fff;
+  font-size:1.3rem;
+  font-weight:600;
 `;
 
+export const ButtonText = styled(Text)`
+  font-family:Inter;
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+`;
 
-const Login = () => {
-	const navigate = useNavigate();
+export const FormButton = styled(StyledButton)`
+  margin:0 0 24px;
+  background-color:#5BAFFC;
+  width:100%;
+  border-radius:8px;
+`;
 
-	const emailRef = useRef('');
-	const passwordRef = useRef('');
-	const [errorEmailMessage,setErrorEmailMessage] = useState(null);
-	const [errorPasswordMessage,setErrorPasswordMessage] = useState(null);
-	const [showPassword,setShowPassword] = useState(false);
+export const FormWrapper = styled(Box)`
+  background-color:${colors.formBg};
+  margin:0 20px;
+  width:24rem;
+  border-radius:30px;
 
-	const handleLogin = () => {
-		if(isInputEmpty(emailRef.current.value) || isInputEmpty(passwordRef.current.value)){
-			return validateEmail();
-		}
+  & .ant-form{
+    width:100%;
+  }
+`;
 
-		if(errorEmailMessage || errorPasswordMessage){
-			return validateEmail();
-		}
+function Login() {
+  const navigate = useNavigate();
+  const [errorEmailMessage, setErrorEmailMessage] = useState(null);
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [form] = Form.useForm();
 
-		handleLoginNavigate();
-	};
+  const validateEmail = (email) => {
+    if(isInputEmpty(email)){
+      return setErrorEmailMessage('Email is empty');
+    }
 
-	const validateEmail = () => {
-		let emailValue = emailRef.current.value;
+    if (!emailRegex.test(email)) {
+      return setErrorEmailMessage('Email is not valid');
+    }
 
-		if(isInputEmpty(emailValue)){
-			return setErrorEmailMessage('Email is empty');
-		}
+    return setErrorEmailMessage(null);
+  };
 
-		if(!emailRegex.test(emailValue)){
-			return setErrorEmailMessage('Email is not valid');
-		}
+  const validatePassword = (password) => {
+    if(isInputEmpty(password)){
+      return setErrorPasswordMessage('Password is empty');
+    }
 
-		return setErrorEmailMessage(null);
-	};
+    if (!passwordRegex.test(password)) {
+      return setErrorPasswordMessage('Password is not valid');
+    }
 
-	const handleEmailBlur = () => {
-		validateEmail();
-	};
+    return setErrorPasswordMessage(null);
+  };
 
-	const validatePassword = () => {
-		let passwordValue = passwordRef.current.value;
+  const handleLogin = () => {
+    const { email, password } = form.getFieldsValue();
+  
+    validateEmail(email);
+    validatePassword(password); 
 
-		if(isInputEmpty(passwordValue)){
-			return setErrorPasswordMessage('Password is empty');
-		}
-
-		if(!passwordRegex.test(passwordValue)){
-			return setErrorPasswordMessage('Password is not valid');
-		}
-
-		return setErrorPasswordMessage(null);
-	};
-
-	const handlePasswordBlur = () => {
-		validatePassword();
-	};
-
-	const handleLoginNavigate = () => {
-		emailRef.current.value = '';
-		passwordRef.current.value = '';
-		navigate('/dashBoard');
-		
-	};
-	return (
-		<Wrapper>
-			<Box
-				backgroundColor={colors.formBg}
-				margin='0 20px'
-				width='24rem'
-				borderRadius='30px'
-			>
-				<Text
-					textAlign='left'
-					width='95%'
-					fontFamily='Inter'
-					margin='0px 0px 30px'
-					color='#fff'
-					fontSize='1.3em'
-					fontWeight='600'
-				>
-          Вход
-				</Text>
-				<InputWrapper>
-					<Input
-						value='erzhan@mail.ru'
-						top='-23%'
-						left='0.6rem'
-						errorMessage={errorEmailMessage}
-						ref={emailRef}
-						onBlur={handleEmailBlur}
-						placeholder='Ваш Email'
-						width='92%' />
-				</InputWrapper>
-				<InputWrapper>
-					<Input 
-						value='QWEety12323$'
-						top='-23%'
-						left='0.6rem'
-						ref={passwordRef}
-						errorMessage={errorPasswordMessage}
-						placeholder='Ваш пароль' 
-						onBlur={handlePasswordBlur}
-						width='100%' 
-						type={showPassword ? 'text':'password'}/>
-					{showPassword ? <StyledEye onClick={() => setShowPassword(prev => !prev)}/> : <StyledEyeHide onClick={() => setShowPassword(prev => !prev)}/>}
-				</InputWrapper>
-				<Box width='100%' 
-					justifyContent='space-between' 
-					flexDirection='row'>
-					<Link
-						textAlign='left'
-						onClick={() => navigate('/passwordRecovery')}
-						width='30%'
-						fontSize='0.8rem'
-						color='#fff'
-						fontWeight='400'
-					>
+    if(emailRegex.test(email) && passwordRegex.test(password)){
+      navigate('/profile');
+    }
+  };
+  
+  // Стили сделать в styled
+  // Показ пароля через CSS
+  return (
+    <Wrapper>
+      <FormWrapper>
+        <Title>
+            Вход
+        </Title>
+        <Form form={form}
+          onFinish={handleLogin}>
+          <FormItem name='email'
+            noStyle>
+            <InputWrapper>
+              <FormInput
+                top='-26%'
+                left='0.6rem'
+                errorMessage={errorEmailMessage}
+                placeholder='Ваш Email'
+                width='100%'
+              />
+            </InputWrapper>
+          </FormItem>
+          <FormItem name='password'
+            noStyle>
+            <InputWrapper>
+              <FormInput
+                top='-26%'
+                left='0.6rem'
+                errorMessage={errorPasswordMessage}
+                placeholder='Ваш пароль'
+                width='100%'
+                type={showPassword ? 'text' : 'password'}
+              />
+              {showPassword ? (
+                <StyledEyeIcon
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              ) : (
+                <StyledEyeHideIcon
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              )}
+            </InputWrapper>
+          </FormItem>
+          <Box width='100%'
+            padding='20px 0px'
+            justifyContent='space-between'
+            flexDirection='row'>
+            <StyledLink
+              textAlign='left'
+              onClick={() => navigate('/passwordRecovery')}
+            >
             Забыли пароль?
-					</Link>
-					<Link
-						onClick={() => navigate('/registration')}
-						textAlign='right'
-						width='40%'
-						fontSize='0.8rem'
-						color='#fff'
-						fontWeight='400'
-					>
-            Зарегестрироваться
-					</Link>
-				</Box>
-				<Button
-					onClick={() => handleLogin()}
-					margin='0 0 24px'
-					backgroundColor='#5BAFFC'
-					width='100%'
-					borderRadius='8px'
-				>
-					<Text
-						fontFamily='Inter'
-						color='#fff'
-						fontSize='1rem'
-						fontWeight='600'
-					>
-            Войти
-					</Text>
-				</Button>
-			</Box>
-		</Wrapper>
-	);
-};
+            </StyledLink>
+            <StyledLink
+              textAlign='right'
+              onClick={() => navigate('/registration')}
+            >
+              Зарегестрироваться
+            </StyledLink>
+          </Box>
+          <FormItem noStyle>
+            <FormButton
+              htmlType='submit'>
+              <ButtonText>
+                Войти
+              </ButtonText>
+            </FormButton>
+          </FormItem>
+        </Form>
+      </FormWrapper>
+    </Wrapper>
+  );
+}
 
 export default Login;

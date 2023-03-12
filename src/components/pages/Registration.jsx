@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import Input from '../atoms/Input';
-import Box from '../atoms/Box';
-import Text from '../atoms/Text';
-import Button from '../atoms/Button';
+import FormInput from '../atoms/FormInput';
+import {Box,Text} from '../atoms';
 import waveRight from '../../images/waveRight.png';
 import waveLeft from '../../images/waveLeft.png';
 import colors from '../constants/colors';
-import Link from '../atoms/Link';
+import {StyledLink, FormButton,ButtonText} from './Login';
 
 /*
     1.Импорты библиотек
@@ -24,6 +22,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  overflow:hidden;
 
   &:after {
     content: "";
@@ -59,73 +58,63 @@ export const Wrapper = styled.div`
   }
 `;
 
-const Registration = () => {
-	const navigate = useNavigate();
+const InfoText = styled(Text)`
+  text-align:center;
+  width:80%;
+  font-family:Inter;
+  font-size:0.8rem;
+  color:#fff;
+  font-weight:400;
+`;
 
-	return (
-		<Wrapper>
-			<Box backgroundColor={colors.formBg}
-				margin='0 20px'
-				width='24rem'
-				borderRadius='30px'>
-				<Box width='95%'
-					flexDirection	='row'
-					justifyContent='space-between'
-					alignItems='center'>
-					<Text
-						fontFamily='Inter'
-						color='#fff'
-						fontSize='1.3rem'
-						fontWeight='600'
-					>
+const RegistrationTitle = styled(Text)`
+  width:auto;
+  font-family:Inter;
+  color:#fff;
+  font-size:1.3rem;
+  font-weight:600;
+
+`;
+
+
+function Registration() {
+  const navigate = useNavigate();
+
+  return (
+    <Wrapper>
+      <Box backgroundColor={colors.formBg}
+        margin='0 20px'
+        width='24rem'
+        borderRadius='30px'>
+        <Box width='95%'
+          flexDirection	='row'
+          justifyContent='space-between'
+          alignItems='center'>
+          <RegistrationTitle>
             Регистрация
-					</Text>
-					<Link
-						color='#fff'
-						cursor='pointer'
-						fontFamily='Inter'
-						fontSize='0.8rem'
-						fontWeight='400'
-						onClick={() => navigate('/')}
-					>
+          </RegistrationTitle>
+          <StyledLink width='auto'
+            onClick={() => navigate('/')}>
             Есть аккаунт? Войти
-					</Link>
-				</Box>
-				<Input placeholder='Ваш Email'
-					width='92%' />
-				<Input placeholder='Ваш пароль'
-					width='92%' />
-				<Input placeholder='Ваш телефон'
-					width='92%' />
-				<Button
-					margin='0 0 24px'
-					backgroundColor='#5BAFFC'
-					width='100%'
-					borderRadius='8px'
-				>
-					<Text
-						textAlign='center'
-						fontFamily='Inter'
-						color='#fff'
-						fontSize='20px'
-						fontWeight='600'
-					>
+          </StyledLink>
+        </Box>
+        <FormInput placeholder='Ваш Email'
+          width='100%' />
+        <FormInput placeholder='Ваш пароль'
+          width='100%' />
+        <FormInput placeholder='Ваш телефон'
+          width='100%' />
+        <FormButton>
+          <ButtonText>
             Продолжить
-					</Text>
-				</Button>
-				<Text
-					textAlign='center'
-					width='80%'
-					fontFamily='Inter'
-					fontSize='0.8rem'
-					color='#fff'
-					fontWeight='400'
-				>
+          </ButtonText>
+        </FormButton>
+        <InfoText>
           Нажимая кнопку “Продолжить”, Вы принимаете условия Публичной оферты
-				</Text>
-			</Box>
-		</Wrapper>
-	);
-};
+        </InfoText>
+      </Box>
+    </Wrapper>
+  );
+}
 
 export default Registration;

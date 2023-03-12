@@ -1,75 +1,49 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Input from '../atoms/Input';
-import Box from '../atoms/Box';
-import Text from '../atoms/Text';
-import Button from '../atoms/Button';
-import colors from '../constants/colors';
-import Link from '../atoms/Link';
+import FormInput from '../atoms/FormInput';
+import { Text } from '../atoms';
+import { Title,FormWrapper,ButtonText,StyledLink,FormButton } from '../pages/Login';
 
-const PasswordSendEmail = ({setIsEmailSent}) => {
-	const navigate = useNavigate();
 
-	return (
-		<Box backgroundColor={colors.formBg}
-			margin='0 20px'
-			width='24rem'
-			borderRadius='30px'>
-			<Text
-				textAlign='left'
-				width='95%'
-				fontFamily='Inter'
-				margin='0px 0px 24px'
-				color='#fff'
-				fontSize='1.3rem'
-				fontWeight='600'
-			>
+export const Subtitle = styled(Text)`
+  text-align:left;
+  width:95%;
+  font-family:Inter;
+  font-size:0.8rem;
+  color:#fff;
+  font-weight:400;
+  margin:0px 0px 24px;
+`;
+
+function PasswordSendEmail({setIsEmailSent}) {
+  const navigate = useNavigate();
+
+  return (
+    <FormWrapper>
+      <Title>
             Восстановить пароль
-			</Text>
-			<Text
-				textAlign='left'
-				width='95%'
-				fontFamily='Inter'
-				fontSize='0.8rem'
-				color='#fff'
-				fontWeight='400'
-				margin='0px 0px 24px'
-			>
+      </Title>
+      <Subtitle>
             На Ваш e-mail будет выслана ссылка для восстановления пароля
-			</Text>
-			<Input placeholder='Ваш Email'
-				width='92%' />
-			<Button
-				onClick={() => setIsEmailSent(true)}
-				margin='0 0 24px'
-				backgroundColor='#5BAFFC'
-				width='100%'
-				borderRadius='8px'
-			>
-				<Text
-					fontFamily='Inter'
-					color='#fff'
-					fontSize='20px'
-					fontWeight='600'
-				>
+      </Subtitle>
+      <FormInput placeholder='Ваш Email'
+        width='100%' />
+      <FormButton
+        onClick={() => setIsEmailSent(true)}>
+        <ButtonText>
               Восстановить пароль
-				</Text>
-			</Button>
-			<Link
-				cursor='pointer'
-				onClick={() => navigate('/')}
-				textAlign='right'
-				width='95%'
-				fontFamily='Inter'
-				fontSize='16px'
-				color='#fff'
-				fontWeight='400'
-			>
+        </ButtonText>
+      </FormButton>
+      <StyledLink
+        onClick={() => navigate('/')}
+        textAlign='right'
+        width='95%'>
             Вернуться на страницу входа
-			</Link>
-		</Box>
-	);
-};
+      </StyledLink>
+    </FormWrapper>
+  );
+}
 
 export default PasswordSendEmail;
