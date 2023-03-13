@@ -1,26 +1,34 @@
-import { createBrowserRouter } from 'react-router-dom';
+import {  Navigate, Route, Routes} from 'react-router-dom';
 import React from 'react';
 
+import Protected from './Protected';
+import Profile from '../components/pages/Profile';
+import DashBoard from '../components/pages/DashBoard';
 import Login from '../components/pages/Login';
 import PasswordRecovery from '../components/pages/PasswordRecovery';
 import Registration from '../components/pages/Registration';
-import DashBoard from '../components/pages/DashBoard';
 
-export  const router = createBrowserRouter([
-	{
-		path:'/registration',
-		element:<Registration/>
-	},
-	{
-		path:'/',
-		element:<Login/>
-	},
-	{
-		path:'/passwordRecovery',
-		element:<PasswordRecovery/>
-	},
-	{
-		path:'/dashBoard',
-		element:<DashBoard/>
-	}
-]);
+export function CustomRoutes() {
+  return (
+    <Routes>
+      <Route element={<Login/>}
+        path='/'/>	
+      <Route
+        element={<Protected/>}>
+        <Route element={<DashBoard/>}
+          path='/dashboard'/>
+        <Route element={<Profile/>}
+          path='/profile'
+        />
+        <Route/>
+      </Route>
+
+      <Route element={<Registration/>}
+        path='/registration'/>
+      <Route element={<PasswordRecovery/>}
+        path='/passwordRecovery'/>
+      <Route element={<Navigate to='/'/>}
+        path='/*'/>
+    </Routes>
+  );
+}

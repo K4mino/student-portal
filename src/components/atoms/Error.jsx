@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {StyledText}from './Text';
+import {Text} from './Text';
 
-const StyledError = styled(StyledText)`
+const StyledError = styled(Text)`
 	position:absolute;
 	color:#8B0000;
 	font-size:0.9rem;
@@ -13,17 +13,17 @@ const StyledError = styled(StyledText)`
 
 	${({top}) => top && `top:${top}`};
 	${({left}) => left && `left:${left}`};
-`
+`;
 
-const Error = ({errorMessage,top,left}) => {
+function Error({errorMessage,top,left}) {
 
-	return (
-		<StyledError 
-		top={top} 
-		left={left}>
-			{errorMessage}
-		</StyledError>
-	);
-};
+  return (
+    <StyledError 
+      top={top} 
+      left={left}>
+      {errorMessage}
+    </StyledError>
+  );
+}
 
 export default Error;

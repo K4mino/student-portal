@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: 'Montserrat';
 }
 
@@ -16,9 +16,55 @@ html {
   font-size: 20px;
 }
 
-@media(max-width:660px){
+.closeTabBtn{
+  display: none;
+}
+
+.dynamic__content {
+  transition: all .5s ease-in-out;
+}
+
+/*---calendar----*/
+
+/*---calendar---*/
+
+
+
+@media(max-width:770px){
   html{
     font-size: 16px;
   }
+  .layout__content{
+    width: 100vw;
+  }
+  .sidebar__wrapper{
+    width: 0vw;
+    min-width:0vw;
+  }
+
+  .closeTabBtn{
+    display: block;
+  }
+
+  .dashboard__header{
+    width:100vw;
+  }
+  .content{
+    width: 100vw;
+  }
+
+  .sidebar.active{
+    transform:translateX(0);
+    transform:translateX(-150%);
+    -webkit-transform:translateX(-150%);
+    -moz-transform:translateX(-150%);
+    -ms-transform:translateX(-150%);
+    -o-transform:translateX(-150%);
 }
+
+  .burgermenu {
+    display: block;
+  }
+}
+
 

@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import {BsXLg} from 'react-icons/bs';
 import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import logo from '../../images/sidebarlogo.png';
 import Img from '../atoms/Img';
-import Text from '../atoms/Text';
+import {Text,Box} from '../atoms';
 import colors from '../constants/colors';
-import { StyledBox } from '../atoms/Box';
-import {navigation} from '../utils/nav';
+import navigation from '../utils/nav';
 
-const NavLink = styled(StyledBox)`
+
+const NavLink = styled(Box)`
     display:flex;
     justify-content:space-between;
     cursor:pointer;
     flex-direction:row;
     gap:1rem;
     border-radius:22px;
+
+	&.active{
+		background-color:${colors.activeClass};
+        color:#fff;
+		
+		& *{
+            color:#fff;
+        }
+	}
+
     &:hover {
         background-color:${colors.activeClass};
         color:#fff;
@@ -26,35 +37,31 @@ const NavLink = styled(StyledBox)`
     }
 `;
 
-const Nav = styled(StyledBox)`
-    background-color:${colors.boxBackground.thirdColor};
-    height:100vh;
-    width:15vw;
-    min-width:190px;
-    align-items:flex-start;
+const Nav = styled(Box)`
+    background-color:#EDEEF2;
+	  position:fixed;
+	  min-height:100vh;
+    min-width:170px;
+	  max-width:12vw;
+	  z-index:5;
+    justify-content:flex-start;
+	  align-items:flex-start;
     transition:transform .1s ease-in-out;
-
-    @media(max-width:770px){
-        transform:translateX(-100%);
-
-        &.active{
-            transform:translateX(0);
-        }
-    }
 `;
 
-const BurgerMenu = styled(StyledBox)`
+const BurgerMenu = styled(Box)`
     display:none;
     gap:1px;
     position:absolute;
-    top:0px;
-    left:0px;
+	  padding:0;
+    top:5px;
+    left:5px;
 
-    @media(max-width:770px){
-        &{
-            display:block;
-        }
-    }
+	@media(max-width:770px){
+		&{
+			display:block;
+		}
+	}
 `;
 
 const Bar = styled.span`
@@ -65,63 +72,49 @@ const Bar = styled.span`
     background-color:#333;
     margin:3px;
 `;
-console.log(window.innerWidth);
-const SideBar = () => {
-	const [isActive,setIsActive] = useState(false);
-	return (
-		<>
-			<BurgerMenu onClick={() => setIsActive(!isActive)}>
-				<Bar/>
-				<Bar/>
-				<Bar/>
-			</BurgerMenu>
-			<Nav className={isActive ? 'active':''}>
-				<BsXLg
-					display={window.innerWidth < 770 ? 'block':'none'}
-					onClick={() => setIsActive(!isActive)}
-					fontSize='1.3rem'/>
-				<Img margin='10px 0 90px'
-					src={logo}
-					alt='logo' />
-				{
-					navigation.map((nav) => {
-						let Icon = nav.icon; 
-						return (
-						<NavLink key={nav.icon}>
-							<Icon color={nav.color}/>
-							<Text>{nav.label}</Text>
-						</NavLink>
-						)
-					})
-				}
-			{/* 	<NavLink>
-					<BsPersonCircle color='#2E5BF0'/>
-					<Text fontSize='0.9rem'>Профиль</Text>
-				</NavLink>
-				<NavLink>
-					<BsHddStack color='#2E5BF0'/>
-					<Text fontSize='0.9rem'>Новости</Text>
-				</NavLink>
-				<NavLink>
-					<BsCalendar color='#2E5BF0'/>   
-					<Text fontSize='0.9rem'>Расписание</Text>
-				</NavLink>
-				<NavLink>
-					<BsJournals color='#2E5BF0'
-						width='20%'/>   
-					<Text fontSize='0.9rem'>Дисциплины</Text>
-				</NavLink>
-				<NavLink>
-					<BsBook color='#2E5BF0'/>   
-					<Text fontSize='0.9rem'>Журнал</Text>
-				</NavLink>
-				<NavLink>
-					<BsChatLeft color='#2E5BF0'/>   
-					<Text fontSize='0.9rem'>Чаты</Text>
-				</NavLink> */}
-			</Nav>
-		</>
-	);
-};
 
-export default SideBar;
+function SideBar() {
+
+  const navigate = useNavigate();
+  const [isActivePage,setIsActivePage] = useState(null);
+  const [isActive,setIsActive] = useState(false);
+  const location = useLocation();
+  
+  return (
+    // навигация через routes или через Link
+    <>
+      <BurgerMenu 
+        onClick={() => setIsActive(!isActive)}>
+        <Bar/>
+        <Bar/>
+        <Bar/>
+      </BurgerMenu>
+      <Nav className={`sidebar ${isActive ? 'active':''}`}>
+        <BsXLg
+          className='closeTabBtn'
+          onClick={() => setIsActive(!isActive)}
+          fontSize='1.3rem'/>
+        <Img margin='10px 0 90px'
+          src={logo}
+          alt='logo' />
+        {
+          navigation.map((nav,i) => {
+            const Icon = nav.icon; 
+            return (
+              <NavLink className={isActivePage === i + 1 ? 'active': ''}
+                key={nav.icon}
+                isActive={location === nav.path}
+                onClick={() => {setIsActivePage(i+1);navigate(nav.path);}}
+              >
+                <Icon color={nav.color}/>
+                <Text fontSize='0.8rem'>{nav.label}</Text>
+              </NavLink>
+            );
+          })
+        }
+      </Nav>
+    </>
+  );
+}
+
+export {SideBar};

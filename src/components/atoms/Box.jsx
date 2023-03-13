@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import spacings from '../constants/spacings';
 
-export const StyledBox = styled.div`
+const StyledBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,23 +21,32 @@ export const StyledBox = styled.div`
   ${({$backgroundColor}) => $backgroundColor && `background-color:${$backgroundColor}`};
   ${({$flexDirection}) => $flexDirection && `flex-direction:${$flexDirection}`};
   ${({$gap}) => $gap && `gap:${$gap}`};
+  ${({$padding}) => $padding && `padding:${$padding}`};
+  ${({$position}) => $position && `position:${$position}`};
 `;
-const Box = (props) => {
-	return (
-		<StyledBox
-			$flexDirection={props.flexDirection}
-			$alignItems={props.alignItems}
-			$justifyContent={props.justifyContent}
-			$backgroundColor={props.backgroundColor}
-			$margin={props.margin}
-			$width={props.width}
-			$borderRadius={props.borderRadius}
-			$height={props.height}
-			$gap={props.gap	}
-		>
-			{props.children}
-		</StyledBox>
-	);
-};
+function Box(props) {
+  const {flexDirection,alignItems,justifyContent,backgroundColor,margin ,width,borderRadius
+    ,height ,gap,padding,onClick,position, className ,children} =props;
 
-export default Box;
+  return (
+    <StyledBox
+      $flexDirection={flexDirection}
+      $alignItems={alignItems}
+      $justifyContent={justifyContent}
+      $backgroundColor={backgroundColor}
+      $margin={margin}
+      $width={width}
+      $borderRadius={borderRadius}
+      $height={height}
+      $gap={gap	}
+      $padding={padding}
+      onClick={onClick}
+      $position={position}
+      className={className}
+    >
+      {children}
+    </StyledBox>
+  );
+}
+
+export {Box};

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const StyledText = styled.div`
+const StyledText = styled.div`
   text-align:center;
   position:relative;
 
@@ -16,26 +16,29 @@ export const StyledText = styled.div`
   ${({textDecoration}) => textDecoration && `text-decoration:${textDecoration}`};
 `;
 
-const Text = (props) => {
-	return (
-		<StyledText
-			cursor={props.cursor}
-			onClick={props.onClick}
-			justifyContent={props.justifyContent}
-			display={props.display}
-			textAlign={props.textAlign}
-			width={props.width}
-			margin={props.margin}
-			fontFamily={props.fontFamily}
-			fontSize={props.fontSize}
-			color={props.color}
-			fontWeight={props.fontWeight}
-			textDecoration={props.textDecoration}
-			props
-		>
-			{props.children}
-		</StyledText>
-	);
-};
+function Text(props){
+  const {cursor,display,justifyContent,textAlign,margin ,width,fontFamily
+    ,fontSize ,color,fontWeight,textDecoration,className,children,onClick,...rest} =props;
 
-export default Text;
+  return (
+    <StyledText
+      className={className}
+      cursor={cursor}
+      onClick={onClick}
+      justifyContent={justifyContent}
+      display={display}
+      textAlign={textAlign}
+      width={width}
+      margin={margin}
+      fontFamily={fontFamily}
+      fontSize={fontSize}
+      color={color}
+      fontWeight={fontWeight}
+      textDecoration={textDecoration}
+      rest={rest}>
+      {children}
+    </StyledText>
+  );
+}
+
+export {Text};
