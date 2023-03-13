@@ -67,12 +67,12 @@ function Login() {
             Вход
         </FormTitle>
         <Form
-          name="basic"
+          name='basic'
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           style={{ maxWidth: 600 }}
           initialValues={{ remember: true }}
-          autoComplete="off"
+          autoComplete='off'
           onFinish={handleLogin}>
           <Form.Item 
             name='email'
@@ -80,8 +80,9 @@ function Login() {
             noStyle
             rules={[{ required: true, message: 'Please input your email!' }]}>
             <Input className='form-input'/>
-          </Form.Item>
-        {/*   <Form.Item 
+          </Form.Item>  
+          
+          {/*   <Form.Item 
             name='password'
             noStyle
             rules={[{ required: true, message: 'Please input your password!' }]}>
