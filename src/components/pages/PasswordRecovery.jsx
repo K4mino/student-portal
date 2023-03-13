@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 
-import { Wrapper } from './Registration';
-import PasswordSendEmail from '../organisms/PasswordSendEmail';
-import PasswordEmailConfirm from '../organisms/PasswordEmailConfirm';
+import { FormBackground } from '../atoms';
+import {PasswordSendEmail,PasswordEmailConfirm} from '../organisms';
+
 
 function PasswordRecovery() {
   const [isEmailSent, setIsEmailSent] = useState(false);
 
   return (
-    <Wrapper>
+    <FormBackground>
       {isEmailSent ? (
         <PasswordEmailConfirm/>
       ) : (
         <PasswordSendEmail setIsEmailSent={setIsEmailSent}/>
       )}
-    </Wrapper>
+    </FormBackground>
   );
 }
 

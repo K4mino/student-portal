@@ -1,29 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { FormWrapper, Title ,FormButton,ButtonText} from '../pages/Login';
-import { Subtitle } from './PasswordSendEmail';
-
+import { FormWrapper, FormTitle ,FormButton,FormButtonText,FormSubTitle} from '../atoms';
 
 function PasswordEmailConfirm() {
   const navigate = useNavigate();
 
   return (
     <FormWrapper>
-      <Title>
+      <FormTitle>
             Письмо отправлено
-      </Title>
-      <Subtitle>
+      </FormTitle>
+      <FormSubTitle>
             Перейдите по ссылке в письме для восстановления пароля
-      </Subtitle>
+      </FormSubTitle>
       <FormButton
         onClick={() => navigate('/')}>
-        <ButtonText>
+        <FormButtonText>
               На главную
-        </ButtonText>
+        </FormButtonText>
       </FormButton>
     </FormWrapper>
   );
 }
 
-export default PasswordEmailConfirm;
+export {PasswordEmailConfirm};

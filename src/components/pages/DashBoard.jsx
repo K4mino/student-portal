@@ -7,7 +7,7 @@ import spacings from '../constants/spacings';
 import colors from '../constants/colors';
 import vector from '../../images/Vector.png';
 import activeVector from '../../images/activeVector.png';
-import DailyStatus from '../atoms/DailyStatus';
+import {DailyStatus} from '../atoms';
 
 
 const Content = styled.div`

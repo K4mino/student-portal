@@ -5,7 +5,7 @@ import { Button } from 'antd';
 
 import spacings from '../constants/spacings';
 
-export const StyledButton = styled(Button)`
+const StyledButton = styled(Button)`
   outline: none;
   border: none;
   cursor:pointer;
@@ -17,20 +17,12 @@ export const StyledButton = styled(Button)`
   ${({ width }) => width && `width:${width}`};
   ${({ borderRadius }) => borderRadius && `border-radius:${borderRadius}`};
   ${({ margin }) => margin && `margin:${margin}`};
-
-	&.ant-btn{
-		height:auto;
-		padding:${spacings.medium};
-	}
-
-  &:hover {
-	background-color:#2E5BF0;
-  }
 `;
 function MyButton(props) {
-  const {htmlType,onClick,margin,borderRadius,width,backgroundColor,children} = props
+  const {htmlType,onClick,margin,borderRadius,width,className,backgroundColor,children,...rest} = props;
   return (
     <StyledButton
+      className={className}
       htmlType={htmlType}
       size='large'
       height='60px'
@@ -38,10 +30,11 @@ function MyButton(props) {
       margin={margin}
       borderRadius={borderRadius}
       width={width}
-      backgroundColor={backgroundColor}>
+      backgroundColor={backgroundColor}
+      rest={rest}>
       {children}
     </StyledButton>
   );
 }
 
-export default MyButton;
+export {MyButton};

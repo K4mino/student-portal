@@ -9,12 +9,13 @@ const Title = styled(Text)`
     color:#000000;
 `;
 
-function PageTitle({pageTitle}) {
+function PageTitle({pageTitle,className}) {
   return (
-    <Title>
+    <Title
+      className={className}>
       {pageTitle}
     </Title>
   );
 }
 
-export default PageTitle;
+export  {PageTitle};

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import spacings from '../constants/spacings';
 
-export const StyledBox = styled.div`
+const StyledBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

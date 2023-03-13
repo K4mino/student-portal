@@ -11,7 +11,7 @@ import grades from '../../images/grades.png';
 import attendance from '../../images/attendance.png';
 import Layout from '../Layout';
 import {Box,Text} from '../atoms';
-import TabItems from '../organisms/TabItems';
+import {TabItems} from '../organisms';
 
 const Content = styled.div`
     display:flex;

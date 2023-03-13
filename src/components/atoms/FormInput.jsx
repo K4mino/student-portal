@@ -1,20 +1,19 @@
 import React from 'react';
-import { Input} from 'antd';
+import { Input } from 'antd';
 import styled from 'styled-components';
 
 import spacings from '../constants/spacings';
 import colors from '../constants/colors';
-
 import Error from './Error';
 
 
-export const StyledInput = styled(Input)`
+const StyledInput = styled(Input)`
+  width:100%;
 	border-radius:13px;
 	border:none;
 	outline:none;
 	font-family:Inter;
 	font-size:0.8rem;
-    
 	padding:${spacings.medium};
   color:${colors.placeholder};
 	margin-bottom:1.9rem;
@@ -22,13 +21,13 @@ export const StyledInput = styled(Input)`
     ${({width}) => width && `width:${width}`};
 `; 
 
-function FormInput({placeholder = '',width,type = 'text',value,onChange,onBlur,errorMessage,top,left}) {
+function FormInput({placeholder = '',width,type = 'text',value,onChange,onBlur,errorMessage}) {
 	
   return (
     <>	
       {errorMessage && <Error 
-        top={top} 
-        left={left} 
+        top='-26%' 
+        left='0.6rem' 
         errorMessage={errorMessage}/>}
       <StyledInput
         value={value}
@@ -42,6 +41,4 @@ function FormInput({placeholder = '',width,type = 'text',value,onChange,onBlur,e
   );
 }
 
-FormInput.displayName = 'FormInput';
-
-export default FormInput;
+export {FormInput};

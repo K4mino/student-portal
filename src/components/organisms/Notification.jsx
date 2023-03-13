@@ -31,4 +31,4 @@ const Notification = ({title,text,date}) => {
   );
 };
 
-export default Notification;
+export {Notification};

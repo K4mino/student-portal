@@ -104,7 +104,7 @@ function SideBar() {
               <NavLink className={isActivePage === i + 1 ? 'active': ''}
                 key={nav.icon}
                 isActive={location === nav.path}
-                onClick={() => {navigate(nav.path)}}
+                onClick={() => {setIsActivePage(i+1);navigate(nav.path);}}
               >
                 <Icon color={nav.color}/>
                 <Text fontSize='0.8rem'>{nav.label}</Text>
@@ -117,4 +117,4 @@ function SideBar() {
   );
 }
 
-export default SideBar;
+export {SideBar};

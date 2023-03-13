@@ -4,14 +4,9 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { Form } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-//убрать circular dependencies
-//сделать barelink для атомов, организмов, и констант
-import {Box,Text} from '../atoms';
-import FormInput from '../atoms/FormInput';
-import  { StyledButton } from '../atoms/Button';
-import colors from '../constants/colors';
+//сделать barelling для атомов, организмов, и констант
+import {Text,FormButton,FormButtonText,FormTitle,FormWrapper,FormLink,FormBackground,FormInput, Box} from '../atoms';
 import { emailRegex, passwordRegex, isInputEmpty } from '../utils/index';
-import { Wrapper } from './Registration';
 
 const InputWrapper = styled(Text)`
   position: relative;
@@ -20,67 +15,36 @@ const InputWrapper = styled(Text)`
   margin: 0 auto;
   width: 100%;
 `;
-// не тянуть styled компоменты друг из друга 
+
 const StyledEyeIcon = styled(BsFillEyeFill)`
-  font-size:1rem;
-  position: absolute;
-  right: 12px;
-  top: 21px;
+  position:absolute;
+  right:5px;
+  display:none;
+
+  ${({showPassword}) => showPassword && 'display:block'};
 `;
 
 const StyledEyeHideIcon = styled(BsFillEyeSlashFill)`
+  position:absolute;
+  right:5px;
+  display:block;
+
+  ${({showPassword}) => showPassword && 'display:none'};
+`;
+
+const LinkWrapper = styled(Box)`
+  width:100%;
+  padding:20px 0px;
+  justify-content:space-between;
+  flex-direction:row;
+`;
+
+const IconWrapper = styled.div`
   font-size:1rem;
   position: absolute;
   right: 12px;
   top: 21px;
-`;
 
-export const StyledLink = styled(Text)`
-  width:40%;
-  font-size:0.8rem;
-  color:#fff;
-  font-weight:400;
-  text-decoration:underline;
-  cursor:pointer;
-  font-family:Inter;
-
-  ${({ width }) => width && `width:${width}`};
-  ${({ textAlign }) => textAlign && `text-align:${textAlign}`};
- `;
-
-export const Title = styled(Text)`
-  text-align:left;
-  width:95%;
-  font-family:Inter;
-  margin:0px 0px 30px;
-  color:#fff;
-  font-size:1.3rem;
-  font-weight:600;
-`;
-
-export const ButtonText = styled(Text)`
-  font-family:Inter;
-  color:#fff;
-  font-size:1rem;
-  font-weight:600;
-`;
-
-export const FormButton = styled(StyledButton)`
-  margin:0 0 24px;
-  background-color:#5BAFFC;
-  width:100%;
-  border-radius:8px;
-`;
-
-export const FormWrapper = styled(Box)`
-  background-color:${colors.formBg};
-  margin:0 20px;
-  width:24rem;
-  border-radius:30px;
-
-  & .ant-form{
-    width:100%;
-  }
 `;
 
 function Login() {
@@ -90,60 +54,58 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [form] = Form.useForm();
 
-  const validateEmail = (email) => {
+  const IsEmailValid = (email) => {
     if(isInputEmpty(email)){
-      return setErrorEmailMessage('Email is empty');
+      setErrorEmailMessage('Email is empty');
+      return false; 
     }
 
     if (!emailRegex.test(email)) {
-      return setErrorEmailMessage('Email is not valid');
+      setErrorEmailMessage('Email is not valid');
+      return false;
     }
 
-    return setErrorEmailMessage(null);
+    setErrorEmailMessage(null);
+    return true;
   };
 
-  const validatePassword = (password) => {
+  const IsPasswordValid = (password) => {
     if(isInputEmpty(password)){
-      return setErrorPasswordMessage('Password is empty');
+      setErrorPasswordMessage('Password is empty');
+      return false;
     }
 
     if (!passwordRegex.test(password)) {
-      return setErrorPasswordMessage('Password is not valid');
+      setErrorPasswordMessage('Password is not valid');
+      return false;
     }
 
-    return setErrorPasswordMessage(null);
+    setErrorPasswordMessage(null);
+    return true;
   };
 
   const handleLogin = () => {
     const { email, password } = form.getFieldsValue();
-  
-    validateEmail(email);
-    validatePassword(password); 
 
-    if(emailRegex.test(email) && passwordRegex.test(password)){
+    if(IsEmailValid(email) && IsPasswordValid(password)){
       navigate('/profile');
     }
   };
   
-  // Стили сделать в styled
-  // Показ пароля через CSS
   return (
-    <Wrapper>
+    <FormBackground>
       <FormWrapper>
-        <Title>
+        <FormTitle>
             Вход
-        </Title>
+        </FormTitle>
         <Form form={form}
           onFinish={handleLogin}>
           <FormItem name='email'
             noStyle>
             <InputWrapper>
               <FormInput
-                top='-26%'
-                left='0.6rem'
                 errorMessage={errorEmailMessage}
                 placeholder='Ваш Email'
-                width='100%'
               />
             </InputWrapper>
           </FormItem>
@@ -151,52 +113,44 @@ function Login() {
             noStyle>
             <InputWrapper>
               <FormInput
-                top='-26%'
-                left='0.6rem'
                 errorMessage={errorPasswordMessage}
                 placeholder='Ваш пароль'
-                width='100%'
                 type={showPassword ? 'text' : 'password'}
               />
-              {showPassword ? (
-                <StyledEyeIcon
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
-              ) : (
-                <StyledEyeHideIcon
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
-              )}
+              <IconWrapper onClick={() => setShowPassword((prev) => !prev)}>
+                <StyledEyeIcon showPassword={showPassword}
+                  className='show'/>
+                <StyledEyeHideIcon showPassword={showPassword}
+                  className='hide'/>
+              </IconWrapper>
             </InputWrapper>
           </FormItem>
-          <Box width='100%'
-            padding='20px 0px'
-            justifyContent='space-between'
-            flexDirection='row'>
-            <StyledLink
+          <LinkWrapper>
+            <FormLink
               textAlign='left'
               onClick={() => navigate('/passwordRecovery')}
             >
             Забыли пароль?
-            </StyledLink>
-            <StyledLink
+            </FormLink>
+            <FormLink
               textAlign='right'
               onClick={() => navigate('/registration')}
             >
               Зарегестрироваться
-            </StyledLink>
-          </Box>
-          <FormItem noStyle>
+            </FormLink>
+          </LinkWrapper>
+          <FormItem 
+            noStyle>
             <FormButton
               htmlType='submit'>
-              <ButtonText>
+              <FormButtonText>
                 Войти
-              </ButtonText>
+              </FormButtonText>
             </FormButton>
           </FormItem>
         </Form>
       </FormWrapper>
-    </Wrapper>
+    </FormBackground>
   );
 }
 

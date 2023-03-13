@@ -1,49 +1,35 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
-import FormInput from '../atoms/FormInput';
-import { Text } from '../atoms';
-import { Title,FormWrapper,ButtonText,StyledLink,FormButton } from '../pages/Login';
-
-
-export const Subtitle = styled(Text)`
-  text-align:left;
-  width:95%;
-  font-family:Inter;
-  font-size:0.8rem;
-  color:#fff;
-  font-weight:400;
-  margin:0px 0px 24px;
-`;
+import { FormSubTitle,FormTitle,FormWrapper,FormButtonText,FormButton,FormLink,FormInput } from '../atoms';
 
 function PasswordSendEmail({setIsEmailSent}) {
   const navigate = useNavigate();
 
   return (
     <FormWrapper>
-      <Title>
+      <FormTitle>
             Восстановить пароль
-      </Title>
-      <Subtitle>
+      </FormTitle>
+      <FormSubTitle>
             На Ваш e-mail будет выслана ссылка для восстановления пароля
-      </Subtitle>
+      </FormSubTitle>
       <FormInput placeholder='Ваш Email'
         width='100%' />
       <FormButton
         onClick={() => setIsEmailSent(true)}>
-        <ButtonText>
+        <FormButtonText>
               Восстановить пароль
-        </ButtonText>
+        </FormButtonText>
       </FormButton>
-      <StyledLink
+      <FormLink
         onClick={() => navigate('/')}
         textAlign='right'
         width='95%'>
             Вернуться на страницу входа
-      </StyledLink>
+      </FormLink>
     </FormWrapper>
   );
 }
 
-export default PasswordSendEmail;
+export {PasswordSendEmail};

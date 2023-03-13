@@ -45,4 +45,4 @@ function DailyStatus({date}) {
   ): null;
 }
 
-export default DailyStatus;
+export {DailyStatus};

@@ -18,10 +18,11 @@ const StyledText = styled.div`
 
 function Text(props){
   const {cursor,display,justifyContent,textAlign,margin ,width,fontFamily
-    ,fontSize ,color,fontWeight,textDecoration,children,onClick,...rest} =props;
+    ,fontSize ,color,fontWeight,textDecoration,className,children,onClick,...rest} =props;
 
   return (
     <StyledText
+      className={className}
       cursor={cursor}
       onClick={onClick}
       justifyContent={justifyContent}
@@ -34,11 +35,10 @@ function Text(props){
       color={color}
       fontWeight={fontWeight}
       textDecoration={textDecoration}
-      rest={rest}
-    >
+      rest={rest}>
       {children}
     </StyledText>
   );
-};
+}
 
 export {Text};

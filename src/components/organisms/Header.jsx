@@ -4,9 +4,8 @@ import {BsBell,BsThreeDotsVertical} from 'react-icons/bs';
 
 import { useNavigate } from 'react-router-dom';
 import spacings from '../constants/spacings';
-import PageTitle from '../atoms/PageTitle';
-import Searchbar from './Searchbar';
-import {Box,Text} from '../atoms';
+import {Searchbar} from './Searchbar';
+import {Box,Text,PageTitle} from '../atoms';
 import profileImg from '../../images/profile.png';
 
 const StyledHeader = styled.div`
@@ -58,4 +57,4 @@ function Header({pageTitle}) {
   );
 }
 
-export default Header;
+export {Header};

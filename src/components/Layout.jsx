@@ -2,11 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import SideBar from './organisms/SideBar';
 import {Box} from './atoms';
-import Header from './organisms/Header';
-import RightBar from './organisms/RightBar';
-
+import {Header,RightBar,SideBar} from './organisms';
 
 const Wrapper = styled.div`
 	display:flex;
@@ -29,6 +26,7 @@ const Content = styled.div`
 const Main = styled.div`
 	display:flex;
 	position:relative;
+	padding:0 15px;
 `;
 
 const SideBarWrapper = styled.div`

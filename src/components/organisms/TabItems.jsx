@@ -35,4 +35,4 @@ function TabItems({rows}) {
   );
 }
 
-export default TabItems;
+export {TabItems};

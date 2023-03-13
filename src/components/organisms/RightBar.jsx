@@ -6,7 +6,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { toggle } from '../reducers/rightbarReducer';
 import { Box,Text } from '../atoms';
-import Notification from './Notification';
+import {Notification} from './Notification';
 import vector from '../../images/rightBarBtn.png';
 import { selectRightbarIsOpen } from '../selectors/rightbarSelector';
 
@@ -109,4 +109,4 @@ function RightBar() {
   );
 }
 
-export default RightBar;
+export {RightBar};
