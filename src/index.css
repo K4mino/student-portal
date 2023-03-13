@@ -24,6 +24,18 @@ html {
   transition: all .5s ease-in-out;
 }
 
+.form-input {
+  width:100%;
+	border-radius:13px;
+	border:none;
+	outline:none;
+	font-family:Inter;
+	font-size:0.8rem;
+	margin-bottom:1.9rem;
+  width:100%;
+  padding: 10px;
+}
+
 /*---calendar----*/
 
 /*---calendar---*/
