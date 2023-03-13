@@ -2,13 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import {Box,Text,FormButton,FormButtonText,FormWrapper,FormLink, FormBackground,FormInput} from '../atoms';
-
-/*
-    1.Импорты библиотек
-    2.абсолютные файлы
-    3.относительные файлы
-*/
+import {Box,Text,FormButton,FormWrapper,FormLink, FormBackground,FormInput} from '../atoms';
 
 const InfoText = styled(Text)`
   text-align:center;
@@ -53,11 +47,7 @@ function Registration() {
           width='100%' />
         <FormInput placeholder='Ваш телефон'
           width='100%' />
-        <FormButton>
-          <FormButtonText>
-            Продолжить
-          </FormButtonText>
-        </FormButton>
+        <FormButton buttonText='Продолжить'/>
         <InfoText>
           Нажимая кнопку “Продолжить”, Вы принимаете условия Публичной оферты
         </InfoText>

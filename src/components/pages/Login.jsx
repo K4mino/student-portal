@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import styled from 'styled-components';
-import { Form } from 'antd';
-import FormItem from 'antd/es/form/FormItem';
+import { Form,Input,Button } from 'antd';
 //сделать barelling для атомов, организмов, и констант
-import {Text,FormButton,FormButtonText,FormTitle,FormWrapper,FormLink,FormBackground,FormInput, Box} from '../atoms';
-import { emailRegex, passwordRegex, isInputEmpty } from '../utils/index';
+import {Text,FormButton,FormTitle,FormWrapper,FormLink,FormBackground,FormInput, Box} from '../atoms';
+//import { emailRegex, passwordRegex, isInputEmpty } from '../utils/index';
 
 const InputWrapper = styled(Text)`
   position: relative;
@@ -47,49 +46,18 @@ const IconWrapper = styled.div`
 
 `;
 
+
 function Login() {
   const navigate = useNavigate();
-  const [errorEmailMessage, setErrorEmailMessage] = useState(null);
-  const [errorPasswordMessage, setErrorPasswordMessage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [form] = Form.useForm();
 
-  const IsEmailValid = (email) => {
-    if(isInputEmpty(email)){
-      setErrorEmailMessage('Email is empty');
-      return false; 
-    }
 
-    if (!emailRegex.test(email)) {
-      setErrorEmailMessage('Email is not valid');
-      return false;
-    }
+  const handleLogin = (values) => {
+    //const { email, password } = form.getFieldsValue();
+    console.log(values);
 
-    setErrorEmailMessage(null);
-    return true;
-  };
-
-  const IsPasswordValid = (password) => {
-    if(isInputEmpty(password)){
-      setErrorPasswordMessage('Password is empty');
-      return false;
-    }
-
-    if (!passwordRegex.test(password)) {
-      setErrorPasswordMessage('Password is not valid');
-      return false;
-    }
-
-    setErrorPasswordMessage(null);
-    return true;
-  };
-
-  const handleLogin = () => {
-    const { email, password } = form.getFieldsValue();
-
-    if(IsEmailValid(email) && IsPasswordValid(password)){
-      navigate('/profile');
-    }
+    navigate('/profile');
+    
   };
   
   return (
@@ -98,34 +66,36 @@ function Login() {
         <FormTitle>
             Вход
         </FormTitle>
-        <Form form={form}
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 600 }}
+          initialValues={{ remember: true }}
+          autoComplete="off"
           onFinish={handleLogin}>
-          <FormItem name='email'
-            noStyle>
-            <InputWrapper>
-              <FormInput
-                errorMessage={errorEmailMessage}
-                placeholder='Ваш Email'
-              />
-            </InputWrapper>
-          </FormItem>
-          <FormItem name='password'
-            noStyle>
-            <InputWrapper>
-              <FormInput
-                errorMessage={errorPasswordMessage}
-                placeholder='Ваш пароль'
-                type={showPassword ? 'text' : 'password'}
-              />
-              <IconWrapper onClick={() => setShowPassword((prev) => !prev)}>
-                <StyledEyeIcon showPassword={showPassword}
-                  className='show'/>
-                <StyledEyeHideIcon showPassword={showPassword}
-                  className='hide'/>
-              </IconWrapper>
-            </InputWrapper>
-          </FormItem>
-          <LinkWrapper>
+          <Form.Item 
+            name='email'
+            label='Email'
+            noStyle
+            rules={[{ required: true, message: 'Please input your email!' }]}>
+            <Input className='form-input'/>
+          </Form.Item>
+        {/*   <Form.Item 
+            name='password'
+            noStyle
+            rules={[{ required: true, message: 'Please input your password!' }]}>
+            <FormInput
+              placeholder='Ваш пароль'
+            />
+            <IconWrapper onClick={() => setShowPassword((prev) => !prev)}>
+              <StyledEyeIcon showPassword={showPassword}
+                className='show'/>
+              <StyledEyeHideIcon showPassword={showPassword}
+                className='hide'/>
+            </IconWrapper> 
+          </Form.Item> */}
+          {/* <LinkWrapper>
             <FormLink
               textAlign='left'
               onClick={() => navigate('/passwordRecovery')}
@@ -138,16 +108,14 @@ function Login() {
             >
               Зарегестрироваться
             </FormLink>
-          </LinkWrapper>
-          <FormItem 
+          </LinkWrapper> */}
+          <Form.Item 
             noStyle>
-            <FormButton
-              htmlType='submit'>
-              <FormButtonText>
-                Войти
-              </FormButtonText>
-            </FormButton>
-          </FormItem>
+            <Button
+              htmlType='submit'
+              buttonText='Войти'
+            />
+          </Form.Item>
         </Form>
       </FormWrapper>
     </FormBackground>
