@@ -8,6 +8,5 @@ export * from './FormWrapper';
 export * from  './FormTitle';
 export * from './FormLink';
 export * from './FormBackground';
-export * from './FormInput';
 export * from './FormSubTitle';
 export * from './DailyStatus';

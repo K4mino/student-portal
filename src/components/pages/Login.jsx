@@ -2,10 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form,Input,Button } from 'antd';
-//сделать barelling для атомов, организмов, и констант
 import {FormTitle,FormWrapper,FormLink,FormBackground, Box} from '../atoms';
-//import { emailRegex, passwordRegex, isInputEmpty } from '../utils/index';
-
 
 const LinkWrapper = styled(Box)`
   width:100%;
