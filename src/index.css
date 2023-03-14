@@ -29,11 +29,30 @@ html {
 	border-radius:13px;
 	border:none;
 	outline:none;
-	font-family:Inter;
-	font-size:0.8rem;
-	margin-bottom:1.9rem;
+	font-family:'Inter';
+	font-size:0.8rem; 
+  padding: 15px;
+}
+
+.email-error .ant-form-item-explain-error{
+  color: #8B0000;
+  font-weight: 500;
+}
+
+.password-error .ant-form-item-explain-error{
+  color: #8B0000;
+  font-weight: 500;
+}
+
+.form-button{
+  background-color:#5BAFFC;
   width:100%;
-  padding: 10px;
+  border-radius:8px;
+  font-family:'Inter';
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+  height: 65px;
 }
 
 /*---calendar----*/

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { FormWrapper, FormTitle ,FormButton,FormButtonText,FormSubTitle} from '../atoms';
+import { FormWrapper, FormTitle ,FormButton,FormSubTitle} from '../atoms';
 
 function PasswordEmailConfirm() {
   const navigate = useNavigate();
@@ -16,9 +16,6 @@ function PasswordEmailConfirm() {
       </FormSubTitle>
       <FormButton
         onClick={() => navigate('/')}>
-        <FormButtonText>
-              На главную
-        </FormButtonText>
       </FormButton>
     </FormWrapper>
   );

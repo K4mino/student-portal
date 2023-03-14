@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {BsXLg} from 'react-icons/bs';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import logo from '../../images/sidebarlogo.png';
 import Img from '../atoms/Img';
@@ -10,17 +10,21 @@ import colors from '../constants/colors';
 import navigation from '../utils/nav';
 
 
-const NavLink = styled(Box)`
+const StyledLink = styled(NavLink)`
     display:flex;
     justify-content:space-between;
     cursor:pointer;
     flex-direction:row;
     gap:1rem;
     border-radius:22px;
+    text-decoration:none;
+    background-color:none;
+    color:#000000;
+    padding:20px 10px;
 
 	&.active{
 		background-color:${colors.activeClass};
-        color:#fff;
+    color:#fff;
 		
 		& *{
             color:#fff;
@@ -75,10 +79,10 @@ const Bar = styled.span`
 
 function SideBar() {
 
-  const navigate = useNavigate();
-  const [isActivePage,setIsActivePage] = useState(null);
+  //const navigate = useNavigate();
+  //const [isActivePage,setIsActivePage] = useState(null);
   const [isActive,setIsActive] = useState(false);
-  const location = useLocation();
+  //const location = useLocation();
   
   return (
     // навигация через routes или через Link
@@ -98,17 +102,16 @@ function SideBar() {
           src={logo}
           alt='logo' />
         {
-          navigation.map((nav,i) => {
+          navigation.map((nav,) => {
             const Icon = nav.icon; 
             return (
-              <NavLink className={isActivePage === i + 1 ? 'active': ''}
+              <StyledLink 
                 key={nav.icon}
-                isActive={location === nav.path}
-                onClick={() => {setIsActivePage(i+1);navigate(nav.path);}}
+                to={nav.path}
               >
                 <Icon color={nav.color}/>
                 <Text fontSize='0.8rem'>{nav.label}</Text>
-              </NavLink>
+              </StyledLink>
             );
           })
         }

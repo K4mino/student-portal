@@ -12,7 +12,7 @@ export function CustomRoutes() {
   return (
     <Routes>
       <Route element={<Login/>}
-        path='/'/>	
+        path='/'/>
       <Route
         element={<Protected/>}>
         <Route element={<DashBoard/>}
