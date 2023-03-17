@@ -27,8 +27,6 @@ html {
 .form-input {
   width:100%;
 	border-radius:13px;
-	border:none;
-	outline:none;
 	font-family:'Inter';
 	font-size:0.8rem; 
   padding: 15px;

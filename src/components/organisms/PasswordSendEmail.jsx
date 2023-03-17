@@ -15,7 +15,8 @@ function PasswordSendEmail({setIsEmailSent}) {
       <FormSubTitle>
             На Ваш e-mail будет выслана ссылка для восстановления пароля
       </FormSubTitle>
-      <Input placeholder='Ваш Email'
+      <Input 
+        placeholder='Ваш Email'
         className='form-input' />
       <Button
         type='primary'

@@ -2,7 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Form,Input,Button } from 'antd';
+
 import {FormTitle,FormWrapper,FormLink,FormBackground, Box} from '../atoms';
+import { emailRules,passwordRules } from '../utils';
 
 const LinkWrapper = styled(Box)`
   width:100%;
@@ -14,12 +16,8 @@ const LinkWrapper = styled(Box)`
 function Login() {
   const navigate = useNavigate();
 
-  const handleLogin = (values) => {
-    //const { email, password } = form.getFieldsValue();
-    console.log(values);
-
+  const handleLogin = () => {
     navigate('/profile');
-    
   };
   
   return (
@@ -36,8 +34,8 @@ function Login() {
           <Form.Item
             name='username'
             className='email-error'
-            rules={[{ required: true, message: 'Пожалуйста введите ваш email!' }]}
-          >
+            hasFeedback
+            rules={emailRules}>
             <Input 
               placeholder='Введите ваш email'
               className='form-input'
@@ -46,7 +44,8 @@ function Login() {
           <Form.Item
             name='password'
             className='password-error'
-            rules={[{ required: true, message: 'Пожалуйста введите ваш пароль!' }]}
+            hasFeedback
+            rules={passwordRules}
           >
             <Input.Password 
               placeholder='Введите ваш пароль'
@@ -64,7 +63,7 @@ function Login() {
               textAlign='right'
               onClick={() => navigate('/registration')}
             >
-              Зарегестрироваться
+            Зарегестрироваться
             </FormLink>
           </LinkWrapper>
           <Form.Item >

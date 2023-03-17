@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
-import { FormWrapper, FormTitle ,FormButton,FormSubTitle} from '../atoms';
+import { FormWrapper, FormTitle ,FormSubTitle} from '../atoms';
 
 function PasswordEmailConfirm() {
   const navigate = useNavigate();
@@ -14,9 +15,12 @@ function PasswordEmailConfirm() {
       <FormSubTitle>
             Перейдите по ссылке в письме для восстановления пароля
       </FormSubTitle>
-      <FormButton
+      <Button
+        type='primary'
+        className='form-button'
         onClick={() => navigate('/')}>
-      </FormButton>
+          На главную
+      </Button>
     </FormWrapper>
   );
 }

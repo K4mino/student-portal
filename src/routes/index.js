@@ -7,6 +7,7 @@ import DashBoard from '../components/pages/DashBoard';
 import Login from '../components/pages/Login';
 import PasswordRecovery from '../components/pages/PasswordRecovery';
 import Registration from '../components/pages/Registration';
+import Chat from '../components/pages/Chat';
 
 export function CustomRoutes() {
   return (
@@ -20,6 +21,8 @@ export function CustomRoutes() {
         <Route element={<Profile/>}
           path='/profile'
         />
+        <Route element={<Chat/>}
+          path='/chats'/>
         <Route/>
       </Route>
 
