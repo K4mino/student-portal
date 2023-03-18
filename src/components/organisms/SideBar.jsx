@@ -15,12 +15,12 @@ const StyledLink = styled(NavLink)`
     justify-content:space-between;
     cursor:pointer;
     flex-direction:row;
-    gap:1rem;
+    gap:1.2rem;
     border-radius:22px;
     text-decoration:none;
     background-color:none;
     color:#000000;
-    padding:20px 10px;
+    padding:15px 10px;
 
 	&.active{
 		background-color:${colors.activeClass};
@@ -48,6 +48,7 @@ const Nav = styled(Box)`
     min-width:170px;
 	  max-width:12vw;
 	  z-index:5;
+    gap:1rem;
     justify-content:flex-start;
 	  align-items:flex-start;
     transition:transform .1s ease-in-out;

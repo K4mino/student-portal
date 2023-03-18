@@ -52,7 +52,7 @@ function Layout({children,pageTitle}) {
       <Content className='layout__content'>
         <Header pageTitle={pageTitle}/>
         <Main>
-          <Box width={isOpen ? '70%' : '95%'}
+          <Box width={isOpen ? '69%' : '95%'}
             className='dynamic__content'>
             {children}
           </Box>

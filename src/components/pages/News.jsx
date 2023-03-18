@@ -5,9 +5,10 @@ import  Layout  from '../Layout';
 import { Text } from '../atoms';
 
 const Wrapper =styled.div`
-    display:flex;
+    display:grid;
     gap:1rem;
-    flex-wrap:wrap;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-rows:repeat(2,1fr);
 `;
 
 const NewsCard = styled.div`
@@ -19,7 +20,9 @@ const NewsCard = styled.div`
     justify-content:flex-end;
     cursor:pointer;
 
-    ${({mainNews}) => mainNews ? 'width:63.5%' : 'width:31%;'}
+    &:first-child{
+      grid-column-end:span 2;
+    }
 `;
 
 const CardInfo = styled.div`
@@ -43,28 +46,23 @@ const CardText = styled(Text)`
 const news = [
   {
     id:1,
-    mainNews:true,
     title:'Lorem ipsum asdqq',
     shortText:'Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam. At tortor porttitor quis maecenas. Risus praesent morbi faucibus ultricies a tristique etiam imperdiet ac. '
   },
   {
     id:2,
-    mainNews:false,
     title:'Lorem ipsum asdqq',
   },
   {
     id:3,
-    mainNews:false,
     title:'Lorem ipsum asdqq',
   },
   {
     id:4,
-    mainNews:false,
     title:'Lorem ipsum asdqq',
   },
   {
     id:5,
-    mainNews:false,
     title:'Lorem ipsum asdqq',
   }
 ];
@@ -76,8 +74,7 @@ const News = () => {
         {
           news.map((news) => (
             <NewsCard 
-              key={news.id}
-              mainNews={news.mainNews}>
+              key={news.id}>
               <CardInfo>
                 <Text
                   fontSize='1rem'

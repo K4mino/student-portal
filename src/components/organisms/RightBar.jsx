@@ -34,11 +34,11 @@ const Bar = styled.div`
     flex-direction:column;
     gap:1rem;
     background-color:#E9EBF2;
-    width:23%;
+    width:22%;
     min-width:300px;
     border-radius:37px;
-    position:absolute;
-    height:auto;
+    position:fixed;
+    height:calc(100% - 107px);
     right:0;
     z-index:5;
     padding:30px 20px;
@@ -56,6 +56,20 @@ const NotificationWrapper = styled(Box)`
   height:auto;
   gap:15px;
   justify-content:flex-start;
+  overflow:scroll;
+
+  ::-webkit-scrollbar-track{
+    background:#fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #A7AFD0; 
+    border-radius:10px;
+  }
 `;
 
 const NotificationTitle = styled(Text)`
