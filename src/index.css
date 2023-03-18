@@ -24,6 +24,35 @@ html {
   transition: all .5s ease-in-out;
 }
 
+.form-input {
+  width:100%;
+	border-radius:13px;
+	font-family:'Inter';
+	font-size:0.8rem; 
+  padding: 15px;
+}
+
+.email-error .ant-form-item-explain-error{
+  color: #8B0000;
+  font-weight: 500;
+}
+
+.password-error .ant-form-item-explain-error{
+  color: #8B0000;
+  font-weight: 500;
+}
+
+.form-button{
+  background-color:#5BAFFC;
+  width:100%;
+  border-radius:8px;
+  font-family:'Inter';
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+  height: 65px;
+}
+
 /*---calendar----*/
 
 /*---calendar---*/

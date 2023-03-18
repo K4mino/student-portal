@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {Input,Button} from 'antd';
 
-import { FormSubTitle,FormTitle,FormWrapper,FormButtonText,FormButton,FormLink,FormInput } from '../atoms';
+import { FormSubTitle,FormTitle,FormWrapper,FormLink } from '../atoms';
 
 function PasswordSendEmail({setIsEmailSent}) {
   const navigate = useNavigate();
@@ -14,14 +15,15 @@ function PasswordSendEmail({setIsEmailSent}) {
       <FormSubTitle>
             На Ваш e-mail будет выслана ссылка для восстановления пароля
       </FormSubTitle>
-      <FormInput placeholder='Ваш Email'
-        width='100%' />
-      <FormButton
+      <Input 
+        placeholder='Ваш Email'
+        className='form-input' />
+      <Button
+        type='primary'
+        className='form-button'
         onClick={() => setIsEmailSent(true)}>
-        <FormButtonText>
-              Восстановить пароль
-        </FormButtonText>
-      </FormButton>
+          Восстановить пароль
+      </Button>
       <FormLink
         onClick={() => navigate('/')}
         textAlign='right'

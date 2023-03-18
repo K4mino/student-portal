@@ -10,7 +10,8 @@ const navigation = [
   {   
     icon:BsHddStack,
     color:'#2E5BF0',
-    label:'Новости'
+    label:'Новости',
+    path:'/news'
   },
   {
     icon:BsCalendar,
@@ -21,17 +22,20 @@ const navigation = [
   {
     icon:BsJournals,
     color:'#2E5BF0',
-    label:'Дисциплины'
+    label:'Дисциплины',
+    path:'/disciplines'
   },
   {
     icon:BsBook,
     color:'#2E5BF0',
-    label:'Журнал'
+    label:'Журнал',
+    path:'/journal'
   },
   {
     icon:BsChatLeft,
     color:'#2E5BF0',
-    label:'Чаты'
+    label:'Чаты',
+    path:'/chats'
   }
 ];
 

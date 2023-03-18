@@ -1,11 +1,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from 'antd';
+import { Button  as AntdButton} from 'antd';
 
 import spacings from '../constants/spacings';
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(AntdButton)`
   outline: none;
   border: none;
   cursor:pointer;
@@ -18,7 +18,7 @@ const StyledButton = styled(Button)`
   ${({ borderRadius }) => borderRadius && `border-radius:${borderRadius}`};
   ${({ margin }) => margin && `margin:${margin}`};
 `;
-function MyButton(props) {
+function Button(props) {
   const {htmlType,onClick,margin,borderRadius,width,className,backgroundColor,children,...rest} = props;
   return (
     <StyledButton
@@ -37,4 +37,4 @@ function MyButton(props) {
   );
 }
 
-export {MyButton};
+export {Button};
