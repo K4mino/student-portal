@@ -8,6 +8,7 @@ import Login from '../components/pages/Login';
 import PasswordRecovery from '../components/pages/PasswordRecovery';
 import Registration from '../components/pages/Registration';
 import Chat from '../components/pages/Chat';
+import News from '../components/pages/News';
 
 export function CustomRoutes() {
   return (
@@ -23,6 +24,9 @@ export function CustomRoutes() {
         />
         <Route element={<Chat/>}
           path='/chats'/>
+        <Route element={<News/>}
+          path='/news'
+        />
         <Route/>
       </Route>
 

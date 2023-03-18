@@ -78,25 +78,20 @@ const Bar = styled.span`
 `;
 
 function SideBar() {
-
-  //const navigate = useNavigate();
-  //const [isActivePage,setIsActivePage] = useState(null);
-  const [isActive,setIsActive] = useState(false);
-  //const location = useLocation();
+  const [isMobileMenuActive,setIsMobileMenuActive] = useState(false);
   
   return (
-    // навигация через routes или через Link
     <>
       <BurgerMenu 
-        onClick={() => setIsActive(!isActive)}>
+        onClick={() => setIsMobileMenuActive(!isMobileMenuActive)}>
         <Bar/>
         <Bar/>
         <Bar/>
       </BurgerMenu>
-      <Nav className={`sidebar ${isActive ? 'active':''}`}>
+      <Nav className={`sidebar ${isMobileMenuActive ? 'active':''}`}>
         <BsXLg
           className='closeTabBtn'
-          onClick={() => setIsActive(!isActive)}
+          onClick={() => setIsMobileMenuActive(!isMobileMenuActive)}
           fontSize='1.3rem'/>
         <Img margin='10px 0 90px'
           src={logo}
@@ -107,8 +102,7 @@ function SideBar() {
             return (
               <StyledLink 
                 key={nav.icon}
-                to={nav.path}
-              >
+                to={nav.path}>
                 <Icon color={nav.color}/>
                 <Text fontSize='0.8rem'>{nav.label}</Text>
               </StyledLink>
