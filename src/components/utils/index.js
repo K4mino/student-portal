@@ -17,3 +17,8 @@ export const passwordRules = [
     }return Promise.reject('Пожалуйста введите верный пароль(минимум 8 символов)!');
   }}
 ];
+
+export const phoneRules = [
+  {required:true,message:'Введите ваш телефон'},
+  {min:11,message:'Минимум 11 символов'}
+];

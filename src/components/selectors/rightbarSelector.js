@@ -1,2 +1,3 @@
-// lodasg установить и применить для вложенных данных 
-export const selectRightbarIsOpen =  (state) => state?.rightBar?.isOpen;
+const _ = require('lodash')
+
+export const selectRightbarIsOpen =  (state) => _.get(state, 'rightBar.isOpen',false);

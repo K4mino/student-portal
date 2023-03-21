@@ -42,6 +42,11 @@ html {
   font-weight: 500;
 }
 
+.phone-error .ant-form-item-explain-error{
+  color: #8B0000;
+  font-weight: 500;
+}
+
 .form-button{
   background-color:#5BAFFC;
   width:100%;

@@ -1,14 +1,14 @@
 import React from 'react';
 import {  Calendar} from 'antd';
 import { useDispatch , useSelector } from 'react-redux';
-
-
 import styled from 'styled-components';
+
 import { toggle } from '../reducers/rightbarReducer';
 import { Box,Text } from '../atoms';
 import {Notification} from './Notification';
 import vector from '../../images/rightBarBtn.png';
 import { selectRightbarIsOpen } from '../selectors/rightbarSelector';
+import { headerHeight } from '../constants/header';
 
 
 const Switcher = styled.div`
@@ -38,7 +38,7 @@ const Bar = styled.div`
     min-width:300px;
     border-radius:37px;
     position:fixed;
-    height:calc(100% - 107px);
+    height:calc(100% - ${headerHeight});
     right:0;
     z-index:5;
     padding:30px 20px;
@@ -103,7 +103,7 @@ const notifications = [
 function RightBar() {
   const isOpen = useSelector(selectRightbarIsOpen);
   const dispatch = useDispatch();
-  // Лодэш посмотреть
+
   return (
     <Bar isOpen={isOpen}>   
       <Switcher isOpen={isOpen}
@@ -111,7 +111,7 @@ function RightBar() {
       <Calendar fullscreen={false}/>
       <NotificationWrapper>
         <NotificationTitle>Уведомления</NotificationTitle>
-        {notifications.map((notification) => (
+        {notifications?.map((notification) => (
           <Notification key={notification.id}
             title={notification.title}
             text={notification.text}
