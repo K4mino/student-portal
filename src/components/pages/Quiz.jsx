@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     display:grid;
     width:100%;
     grid-template-columns:345px auto;
-    gap:50px;
+    column-gap:3rem;
 `;
 
 const Quiz = () => {

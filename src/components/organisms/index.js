@@ -6,3 +6,5 @@ export * from './RightBar';
 export * from './Searchbar';
 export * from './SideBar';
 export * from './TabItems';
+export * from './Chats';
+export * from './Messages';

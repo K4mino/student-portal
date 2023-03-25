@@ -6,7 +6,8 @@ import spacings from '../constants/spacings';
 import colors from '../constants/colors';
 import { Box,Text } from '../atoms';
 import { selectActiveQuestion,selectQuestions,selectAnsweredQuestion,  } from '../selectors/quizSelector';
-import { answer } from '../reducers/quiz';
+import { answer, previousQuestion,nextQuestion } from '../reducers/quiz';
+import arrow from '../../images/Vector.svg';
 
 const Wrapper = styled.div`
     width:90%;
@@ -56,7 +57,8 @@ const Variant = styled.div`
 
     ${({$isActive}) => $isActive ? `background-color:${colors.activeClass};`:'background-color:#fff;'}
     ${({$isActive}) => $isActive ? 'color:#fff;':'color:#000;'}
-    ${({$isCorrect,$completed,$isActive}) => ($isActive && $completed) ? $isCorrect ? 'background-color:green;': 'background-color:red;' : ''}
+    ${({$isCorrect,$completed,$isActive}) => 
+    ($isActive && $completed) ? $isCorrect ? 'background-color:green;': 'background-color:red;' : ''}
 `;
 const ControlsWrapper = styled(Box)`
     position:absolute;
@@ -68,7 +70,12 @@ const ControlsWrapper = styled(Box)`
 `;
 
 const Controls = styled.div`
+    background-image:url(${arrow});
+    background-size:contain;
+    width:45px;
+    height:45px;
 
+    ${({prev}) => prev ? 'transform:rotate(0deg);' : 'transform:rotate(180deg);'}
 `;
 
 const Question = () => {
@@ -106,9 +113,11 @@ const Question = () => {
         }
       </VariantsWrapper>
       <ControlsWrapper>
-        <Controls 
+        <Controls
+          onClick={() => dispatch(previousQuestion())}
           prev={true}/>
-        <Controls/>
+        <Controls
+          onClick={() => dispatch(nextQuestion())}/>
       </ControlsWrapper>
     </Wrapper>
   );

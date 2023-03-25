@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import {Input,Button,Form} from 'antd';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {createUserWithEmailAndPassword } from 'firebase/auth';
+import {doc,setDoc} from 'firebase/firestore';
+import {auth,db} from '../../firebase';
 
 import {Box,Text,FormWrapper,FormLink, FormBackground} from '../atoms';
 import { emailRules,passwordRules,phoneRules } from '../utils';
@@ -35,28 +37,35 @@ const TitleWrapper = styled(Box)`
 
 function Registration() {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const handleRegistration = () => {
-    const [form] = Form.useForm();
+  const handleRegistration = async () => {
     const {email,password} = form.getFieldsValue();
-    const auth = getAuth();
-  
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode,errorMessage);
-      });
-  };
+    console.log(email);
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      try {
+        await setDoc(doc(db,'users',res.user.uid),{
+          uid:res.user.uid,
+          email:res.user.email,
+        });
+        await setDoc(doc(db,'userChats',res.user.uid),{
+          
+        });
+        navigate('/profile');
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }; 
 
   return (
     <FormBackground>
       <FormWrapper>
         <Form
+          form={form}
           name='basic'
           initialValues={{ remember: true }}
           autoComplete='off'
@@ -72,7 +81,7 @@ function Registration() {
             </FormLink>
           </TitleWrapper>
           <Form.Item
-            name='username'
+            name='email'
             className='email-error'
             hasFeedback
             rules={emailRules}>

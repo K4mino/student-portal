@@ -61,13 +61,13 @@ export const quizSlice = createSlice({
       state.showResult = false;
     },
     previousQuestion:(state) => {
-      if(state.activeQuestion - 1 < 1){
+      if(state.activeQuestion - 1 < 0){
         return;
       }
-      state.activeQuestion = state.activeQuestion -1;
+      state.activeQuestion = state.activeQuestion - 1;
     },
     nextQuestion:(state) => {
-      if(state.activeQuestion + 1 > state.questions.length){
+      if(state.activeQuestion + 1> state.questions.length - 1){
         return;
       }
       state.activeQuestion = state.activeQuestion + 1;
