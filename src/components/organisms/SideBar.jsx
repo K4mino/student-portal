@@ -15,12 +15,12 @@ const StyledLink = styled(NavLink)`
     justify-content:space-between;
     cursor:pointer;
     flex-direction:row;
-    gap:1rem;
+    gap:1.2rem;
     border-radius:22px;
     text-decoration:none;
     background-color:none;
     color:#000000;
-    padding:20px 10px;
+    padding:15px 10px;
 
 	&.active{
 		background-color:${colors.activeClass};
@@ -48,6 +48,7 @@ const Nav = styled(Box)`
     min-width:170px;
 	  max-width:12vw;
 	  z-index:5;
+    gap:1rem;
     justify-content:flex-start;
 	  align-items:flex-start;
     transition:transform .1s ease-in-out;
@@ -78,25 +79,20 @@ const Bar = styled.span`
 `;
 
 function SideBar() {
-
-  //const navigate = useNavigate();
-  //const [isActivePage,setIsActivePage] = useState(null);
-  const [isActive,setIsActive] = useState(false);
-  //const location = useLocation();
+  const [isMobileMenuActive,setIsMobileMenuActive] = useState(false);
   
   return (
-    // навигация через routes или через Link
     <>
       <BurgerMenu 
-        onClick={() => setIsActive(!isActive)}>
+        onClick={() => setIsMobileMenuActive(!isMobileMenuActive)}>
         <Bar/>
         <Bar/>
         <Bar/>
       </BurgerMenu>
-      <Nav className={`sidebar ${isActive ? 'active':''}`}>
+      <Nav className={`sidebar ${isMobileMenuActive ? 'active':''}`}>
         <BsXLg
           className='closeTabBtn'
-          onClick={() => setIsActive(!isActive)}
+          onClick={() => setIsMobileMenuActive(!isMobileMenuActive)}
           fontSize='1.3rem'/>
         <Img margin='10px 0 90px'
           src={logo}
@@ -107,8 +103,7 @@ function SideBar() {
             return (
               <StyledLink 
                 key={nav.icon}
-                to={nav.path}
-              >
+                to={nav.path}>
                 <Icon color={nav.color}/>
                 <Text fontSize='0.8rem'>{nav.label}</Text>
               </StyledLink>

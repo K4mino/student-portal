@@ -63,10 +63,16 @@ const Dialog = styled.div`
     justify-content:space-between;
     align-items:center;
     gap:0.5rem;
+    border-bottom:1px solid grey;
+
 
     & img{
         max-width:51px;
         max-height:51px;
+    }
+
+    &:last-child{
+      border:none;
     }
 `;
 
@@ -177,7 +183,7 @@ const Chat = () => {
           </Searchbar>
           <DialogList>
             {
-              dialogs.map((dialog) => (
+              dialogs?.map((dialog) => (
                 <Dialog key={dialog.id}>
                   <img src={dialog.img}/>
                   <Box
