@@ -9,6 +9,7 @@ import PasswordRecovery from '../components/pages/PasswordRecovery';
 import Registration from '../components/pages/Registration';
 import Chat from '../components/pages/Chat';
 import News from '../components/pages/News';
+import Quiz from '../components/pages/Quiz';
 
 export function CustomRoutes() {
   return (
@@ -27,6 +28,8 @@ export function CustomRoutes() {
         <Route element={<News/>}
           path='/news'
         />
+        <Route element={<Quiz/>}
+          path='/quiz'/>
         <Route/>
       </Route>
 
