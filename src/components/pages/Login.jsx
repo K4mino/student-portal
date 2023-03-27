@@ -20,12 +20,12 @@ function Login() {
   const [form] = Form.useForm();
   const handleLogin = async() => {
     const {email,password} = form.getFieldsValue();
-
     try {
       await signInWithEmailAndPassword(auth,email,password);
       navigate('/profile');
     } catch (error) {
-      alert('Error not found');
+      // обработка ошибок
+      alert(error.message);
     }
   };
   

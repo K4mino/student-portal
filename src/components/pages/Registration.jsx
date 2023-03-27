@@ -50,7 +50,6 @@ function Registration() {
           email:res.user.email,
         });
         await setDoc(doc(db,'userChats',res.user.uid),{
-          
         });
         navigate('/profile');
       } catch (error) {

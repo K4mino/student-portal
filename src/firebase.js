@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import {getStorage} from 'firebase/storage';
 import {getFirestore} from 'firebase/firestore';
 
+// установить .env и перенести конфиг
 const firebaseConfig = {
   apiKey: 'AIzaSyCJe95s8JYsiHjKMfnps3iec5O0qT7aUg0',
   authDomain: 'chat-edb8d.firebaseapp.com',

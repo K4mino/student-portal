@@ -34,6 +34,7 @@ const initialState = {
   questionsLength:5,
   showResult:false,
   completed:false
+  //Закрасить вопрос с ответом
 };
 
 export const quizSlice = createSlice({
@@ -48,10 +49,8 @@ export const quizSlice = createSlice({
     },
     getResult:(state) => {
       for(let key in state.answeredQuestions){
-        if(state.correctAnswers.indexOf(state.questions[key]) == -1 && state.completed == false){
-          if(state.questions[key].correct == state.answeredQuestions[key]){
-            state.correctAnswers.push(state.questions[key]);
-          }
+        if(state.questions[key].correct == state.answeredQuestions[key]){
+          state.correctAnswers.push(state.questions[key]);
         }
       }
       state.showResult = true;
