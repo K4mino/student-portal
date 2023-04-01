@@ -42,7 +42,7 @@ const SideBarWrapper = styled.div`
 `;
 
 function Layout({children,pageTitle}) {
-  const isOpen = useSelector((state) => state.rightBar.isOpen);
+  const isOpen = useSelector((state) => state?.rightBar?.isOpen);
 
   return (
     <Wrapper>

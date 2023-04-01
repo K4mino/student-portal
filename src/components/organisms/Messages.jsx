@@ -16,6 +16,19 @@ const Wrapper = styled.div`
     height: calc(100% - 160px);
     overflow-y: scroll;
     width:90%;
+
+    ::-webkit-scrollbar-track{
+      background:#fff;
+    }
+  
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+      background: #A7AFD0; 
+      border-radius:10px;
+    }
 `;
 
 const Message = styled.div`

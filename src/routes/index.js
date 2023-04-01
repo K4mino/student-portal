@@ -10,6 +10,10 @@ import Registration from '../components/pages/Registration';
 import Chat from '../components/pages/Chat';
 import News from '../components/pages/News';
 import Quiz from '../components/pages/Quiz';
+import Disciplines from '../components/pages/Disciplines';
+import Tasks from '../components/pages/Tasks';
+import Homework from '../components/pages/Homework';
+import Journal from '../components/pages/Journal';
 
 export function CustomRoutes() {
   return (
@@ -28,9 +32,16 @@ export function CustomRoutes() {
         <Route element={<News/>}
           path='/news'
         />
+        <Route element={<Journal/>}
+          path='/journal'/>
         <Route element={<Quiz/>}
-          path='/quiz'/>
-        <Route/>
+          path='/disciplines/tasks/quiz'/>
+        <Route element={<Disciplines/>}
+          path='/disciplines'/>
+        <Route element={<Tasks/>}
+          path='/disciplines/tasks'/>
+        <Route element={<Homework/>}
+          path='/disciplines/tasks/homework'/>
       </Route>
 
       <Route element={<Registration/>}

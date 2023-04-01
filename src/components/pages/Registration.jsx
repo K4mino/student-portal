@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import {Input,Button,Form} from 'antd';
 import {createUserWithEmailAndPassword } from 'firebase/auth';
 import {doc,setDoc} from 'firebase/firestore';
-import {auth,db} from '../../firebase';
 
+import {auth,db} from '../../firebase';
 import {Box,Text,FormWrapper,FormLink, FormBackground} from '../atoms';
 import { emailRules,passwordRules,phoneRules } from '../utils';
 
@@ -41,13 +41,14 @@ function Registration() {
 
   const handleRegistration = async () => {
     const {email,password} = form.getFieldsValue();
-    console.log(email);
+   
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       try {
         await setDoc(doc(db,'users',res.user.uid),{
           uid:res.user.uid,
           email:res.user.email,
+          lessons:[]
         });
         await setDoc(doc(db,'userChats',res.user.uid),{
         });

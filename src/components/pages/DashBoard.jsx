@@ -4,11 +4,7 @@ import { Calendar} from 'antd';
 
 import Layout from '../Layout';
 import spacings from '../constants/spacings';
-import colors from '../constants/colors';
-import vector from '../../images/Vector.png';
-import activeVector from '../../images/activeVector.png';
 import {DailyStatus} from '../atoms';
-
 
 const Content = styled.div`
 	display:flex;
@@ -50,38 +46,6 @@ const SubTitle = styled.div`
 		top:0;
 	}
 `;
-
-const CurrentDate = styled.div`
-	color:#2E5BF0;
-	font-size:1.1rem;
-	font-weight:500;
-`;
-
-const DateSwitch = styled.div`
-	width:48px;
-	height:48px;
-	background-color:#fff;
-	box-shadow:1px 1px 4px 1.5px rgba(0,0,0,0.15);
-	background-image:url(${vector});
-	background-repeat:no-repeat;
-	background-size:25%;
-	background-position: center;
-	border:1.5px solid #E9EDFE;
-
-	${({borderRadius}) => borderRadius && `border-radius:${borderRadius}`};
-
-	&.active{
-		background-color:${colors.activeClass};
-		background-image:url(${activeVector});
-		border:1.5px solid #2E5BF0;
-	}
-`;
-
-const DateSwitchers = styled.div`
-	display:flex;
-`;
-
-
 function DashBoard() {
   return (
     <Layout pageTitle='Расписание'>
@@ -89,13 +53,6 @@ function DashBoard() {
         <DateHeader className='date__header'>
           <DateInterface>
             <SubTitle>Задания</SubTitle>
-            <CurrentDate>Март, 2023</CurrentDate>
-            <DateSwitchers>
-              <DateSwitch borderRadius='13px 0 0 13px'/>
-              <DateSwitch
-                className='active'
-                borderRadius='0 13px 13px 0'/>
-            </DateSwitchers>
           </DateInterface>
         </DateHeader>
         <Calendar 

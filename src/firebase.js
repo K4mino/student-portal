@@ -3,14 +3,13 @@ import { getAuth } from 'firebase/auth';
 import {getStorage} from 'firebase/storage';
 import {getFirestore} from 'firebase/firestore';
 
-// установить .env и перенести конфиг
 const firebaseConfig = {
-  apiKey: 'AIzaSyCJe95s8JYsiHjKMfnps3iec5O0qT7aUg0',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'chat-edb8d.firebaseapp.com',
   projectId: 'chat-edb8d',
   storageBucket: 'chat-edb8d.appspot.com',
   messagingSenderId: '846554297701',
-  appId: '1:846554297701:web:637375c2b26268bc5b9d8c'
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 export const app = initializeApp(firebaseConfig);

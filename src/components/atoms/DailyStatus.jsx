@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { doc, getDoc } from 'firebase/firestore';
 
-import dateFormat  from '../constants/date';
+import { db } from '../../firebase';
+import { Box } from './Box';
+import { Text } from './Text';
+import { AuthContext } from '../../context/AuthContext';
+//import dateFormat  from '../constants/date';
+import { useEffect } from 'react';
 
-const events = [
+/* const events = [
   {
     day:14,
     month:2,
@@ -25,7 +32,7 @@ const events = [
     event:'Java',
     eventType:'lesson'
   },
-];
+]; */
 
 const StyledStatus = styled.div`
 	background-color:#B6EEC3;
@@ -33,16 +40,39 @@ const StyledStatus = styled.div`
 	width:80%;
 	padding:5px;
 `;
-// Формат даты , привести даты  в один формат
-function DailyStatus({date}) {
-  const selectedDate = date.$d;
 
-  const selectedDayEvent = events.filter((event) => dateFormat(selectedDate) === dateFormat(event.date));
-  return selectedDayEvent.length > 0 ?(
+
+function DailyStatus({date}) {
+  const {currentUser} = useContext(AuthContext);
+  const [lessons,setLessons] = useState([]);
+  useEffect(() => {
+    const getData = async() => {
+      try {
+        const res = await getDoc(doc(db,'users',currentUser.uid));
+        const userData = await res.data();
+        setLessons(userData?.lessons);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    currentUser.uid && getData();
+  },[currentUser.uid]);
+  
+  /* const selectedDate = date.$d; */
+  const selectedDayEvent = lessons?.filter((lesson) => lesson.weekday == date.$W); 
+  return selectedDayEvent?.length > 0 ? (
     <StyledStatus>
-      {selectedDayEvent.map((event) => `${event.event  } ${ event.eventType}`)}
+      {selectedDayEvent?.map((lesson) => (
+        <Box 
+          key={lesson.name}
+          padding='0'>
+          <Text>{lesson.name}</Text>
+          <Text>{lesson.cabinet}</Text>
+          <Text>{lesson.time}</Text>
+        </Box>))} 
     </StyledStatus> 
-  ): null;
+  ) : null ;
 }
 
 export {DailyStatus};

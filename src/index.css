@@ -58,9 +58,11 @@ html {
   height: 65px;
 }
 
-/*---calendar----*/
-
-/*---calendar---*/
+.ant-upload.ant-upload-drag{
+  border:2px dashed #498098 ;
+  height: 100%;
+  background: transparent;
+}
 
 
 

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import spacings from '../constants/spacings';
 import colors from '../constants/colors';
 import { Text } from '../atoms';
-import { selectQuestions,selectActiveQuestion } from '../selectors/quizSelector';
+import { selectQuestions,selectActiveQuestion, selectAnsweredQuestion } from '../selectors/quizSelector';
 import { openQuestion,getResult } from '../reducers/quiz';
 
 const Wrapper = styled.div`
@@ -62,6 +62,7 @@ const CompleteButton = styled.div`
 const QuestionList = () => {
   const questions = useSelector(selectQuestions);
   const activeQuestion = useSelector(selectActiveQuestion);
+  const answers = useSelector(selectAnsweredQuestion);
   const dispatch = useDispatch();
   const handleOpenQuestion = ( (i) => () => dispatch(openQuestion(i)));
   return (
@@ -69,7 +70,8 @@ const QuestionList = () => {
       {questions.map((_,i) => (
         <QuestionIndexes 
           key={i}
-          $isActive={activeQuestion == i}
+          // eslint-disable-next-line no-prototype-builtins
+          $isActive={activeQuestion == i || answers.hasOwnProperty(i)}
           onClick={handleOpenQuestion(i)}>
           <QuestionIndex
             $isActive={activeQuestion == i}>
