@@ -19,13 +19,38 @@ const StyledHeader = styled.div`
 	gap:1rem;
 	width:80vw;
 	padding:${spacings.large} ${spacings.large} 0;
+
+  @media(max-width:770px){
+    &{
+      width:90%;
+    }
+  }
+
+  @media(max-width:660px){
+    & {
+      justify-content:center;
+      padding-bottom:1rem;
+    }
+  }
 `;
 
 const Profile = styled.div`
-	width:22%;
+	width:40%;
 	display:flex;
 	align-items:center;
 	justify-content:space-between;
+  max-width:300px;
+  @media(max-width:770px){
+    &{
+      width:50%;
+    }
+  }
+
+  @media(max-width:660px){
+    &{
+      display:none;
+    }
+  }
 `;
 
 const LogOut = styled.div`
@@ -38,12 +63,14 @@ const LogOut = styled.div`
   color:#333;
   position:absolute;
   right:50px;
-  font-size:1rem;
+  font-size:0.9rem;
+  text-align:center;
+  cursor:pointer;
 
   ${({isActive}) => isActive ? 'display:block':'display:none'};
 `;
 
-function Header({pageTitle}) {
+function Header({pageTitle,shouldShowSearch}) {
   const [isActive,setIsActive] = useState(false);
   const {currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
@@ -51,9 +78,9 @@ function Header({pageTitle}) {
   return (
     <StyledHeader className='dashboard__header'>
       <PageTitle pageTitle={pageTitle} />
-      <Searchbar/>
+      <Searchbar shouldShowSearch={shouldShowSearch}/>
       <Profile>
-        <BsBell/>
+        <BsBell size='20px'/>
         <Box padding='0'
           alignItems='flex-start'>
           <Text fontSize='0.8rem'
@@ -67,7 +94,9 @@ function Header({pageTitle}) {
         </Box>
         <Box onClick={() => navigate('/profile')}
           padding='0'>
-          <img src={profileImg}
+          <img
+            style={{width:'57px',height:'57px'}}
+            src={profileImg}
             alt='profile.img' />
         </Box>
         <BsThreeDotsVertical

@@ -64,6 +64,14 @@ html {
   background: transparent;
 }
 
+.library__tabs{
+  width: 100%;;
+
+}
+
+.mobile-calendar .ant-picker-content {
+  width: 100%;
+} 
 
 
 @media(max-width:770px){
@@ -100,6 +108,13 @@ html {
 
   .burgermenu {
     display: block;
+  }
+
+  .dynamic__content{
+    padding: 0 !important;
+  }
+  .tab__item{
+    width: 100%;
   }
 }
 

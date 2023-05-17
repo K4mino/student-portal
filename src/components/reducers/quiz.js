@@ -34,7 +34,6 @@ const initialState = {
   questionsLength:5,
   showResult:false,
   completed:false
-  //Закрасить вопрос с ответом
 };
 
 export const quizSlice = createSlice({

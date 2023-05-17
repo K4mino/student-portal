@@ -42,11 +42,15 @@ const Bar = styled.div`
     right:0;
     z-index:5;
     padding:30px 20px;
-
-
     transition: all .5s ease-in-out;
     ${({isOpen}) => isOpen ? 'transform:translateX(0%)' : 'transform:translateX(90%);'};
   
+
+    @media(max-width:770px){
+      &{
+        display:none;
+      }
+    }
 `;
 
 const NotificationWrapper = styled(Box)`

@@ -7,7 +7,7 @@ import { db } from '../../firebase';
 import { Box } from './Box';
 import { Text } from './Text';
 import { AuthContext } from '../../context/AuthContext';
-//import dateFormat  from '../constants/date';
+import dateFormat  from '../constants/date';
 import { useEffect } from 'react';
 
 /* const events = [
@@ -50,26 +50,34 @@ function DailyStatus({date}) {
       try {
         const res = await getDoc(doc(db,'users',currentUser.uid));
         const userData = await res.data();
-        setLessons(userData?.lessons);
+        let list = [];
+        for (const item of userData.lessons){
+          const path = item.path;
+          const lessonId = path.split('/').pop();
+          const lesson = await getDoc(doc(db,'lessons',lessonId));
+          list.push(lesson.data());
+        }
+        setLessons(list);
       } catch (error) {
         console.log(error);
       }
     };
 
     currentUser.uid && getData();
-  },[currentUser.uid]);
-  
-  /* const selectedDate = date.$d; */
-  const selectedDayEvent = lessons?.filter((lesson) => lesson.weekday == date.$W); 
+  },[currentUser.uid]); 
+
+  const selectedDate = date.$d; 
+  const selectedDayEvent = lessons?.filter((lesson) => dateFormat(lesson.start.toDate()) == dateFormat(selectedDate));
+
   return selectedDayEvent?.length > 0 ? (
     <StyledStatus>
       {selectedDayEvent?.map((lesson) => (
         <Box 
-          key={lesson.name}
+          key={lesson?.name}
           padding='0'>
-          <Text>{lesson.name}</Text>
-          <Text>{lesson.cabinet}</Text>
-          <Text>{lesson.time}</Text>
+          <Text>{lesson?.title}</Text>
+          <Text>{lesson?.cabinet}</Text>
+          <Text>{lesson?.start.toDate().getHours()}:{lesson?.start.toDate().getMinutes().toString().padStart(2, '0')}</Text>
         </Box>))} 
     </StyledStatus> 
   ) : null ;

@@ -9,6 +9,7 @@ import {FormTitle,FormWrapper,FormLink,FormBackground, Box} from '../atoms';
 import { emailRules,passwordRules } from '../utils';
 import { useState } from 'react';
 
+
 const LinkWrapper = styled(Box)`
   width:100%;
   padding:20px 0px;
@@ -24,12 +25,12 @@ function Login() {
 
   const handleLogin = async() => {
     const {email,password} = form.getFieldsValue();
-   
+
     try {
       await signInWithEmailAndPassword(auth,email,password);
-      navigate('/profile');
-    } catch (error) {
       setHasError(true);
+      navigate('/profile'); 
+    } catch (error) {
       setErrorMessage(error.message);
       console.log(error);
     }

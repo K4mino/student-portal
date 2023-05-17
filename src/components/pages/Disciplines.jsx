@@ -1,152 +1,82 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useState,useEffect,useContext } from 'react';
+import { getDoc,doc} from 'firebase/firestore';
 
-import {Box,Text} from '../atoms';
-import subject from '../../images/subject.svg';
-import { Link, useLocation } from 'react-router-dom';
+import {db} from '../../firebase';
+import { AuthContext } from '../../context/AuthContext';
+import { DisciplineCard } from '../organisms';
 import Layout from '../Layout';
 
 const Wrapper = styled.div`
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-template-columns:repeat(3,1fr);
     gap:1rem;
-`;
-
-const Card = styled.div`
-    border-radius:23px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    padding:1rem;
-`;
-
-const CardInfo = styled.div`
-    background-color:#F0F3FF;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
-    border-radius:13px;
-    gap:10px;
-    justify-content:flex-start;
-`;
-
-const CardTitle = styled(Box)`
-    padding:0;
     width:100%;
-    flex-direction:row;
-    gap:1rem;
-    justify-content:flex-start;
+
+    @media(max-width:660px){
+      &{
+        grid-template-columns:1fr;
+      }
+    }
 `;
 
-const CardText = styled(Text)`
-    text-align:left;
-    width:100%;
-    font-size:0.8rem;
-`;
-
-const StyledLink = styled(Link)`
-    color:#2F4DB7;
-    text-decoration:none;
-    font-size:0.8rem;
-`;
 
 const Disciplines = () => {
-  let location = useLocation();
+  const {currentUser} = useContext(AuthContext);
+  const [disciplines,setDisciplines] = useState([]);
+  const [role,setRole] = useState('');
+
+  useEffect(() => {
+    const getData = async() => {
+      try {
+        const res = await getDoc(doc(db,'users',currentUser.uid));
+        const userData = await res.data();
+        let list = [];
+        for (const item of userData.lessons){
+          const path = item.path;
+          const lessonId = path.split('/').pop();
+          const lesson = await getDoc(doc(db,'lessons',lessonId));
+          list.push(lesson.data());
+        }
+        setDisciplines(list);
+        setRole(userData.role);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    currentUser.uid && getData();
+  },[currentUser.uid]);
 
   return (
     <Layout pageTitle='Дисциплины'>
       <Wrapper>
-        <Card>
-          <CardTitle>
-            <img src={subject}/>
-            <Box 
-              padding='0'
-              gap='0.5rem'>
-              <CardText
-                fontWeight='600'>
-                Веб разработка
-              </CardText>
-              <CardText>
-                John.D
-              </CardText>
-            </Box>
-          </CardTitle>
-          <CardInfo>
-            <CardText 
-              fontSize='0.6rem'
-              fontWeight='600'>
-                Текущая неделя 3
-            </CardText>
-            <CardText
-              fontSize='0.6rem'>
-          Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam. At tortor porttitor quis maecenas. 
-            </CardText>
-            <StyledLink to={location.pathname + '/tasks'}>
-                Перейти к заданиям
-            </StyledLink>
-          </CardInfo>
-        </Card>
-        <Card>
-          <CardTitle>
-            <img src={subject}/>
-            <Box 
-              padding='0'
-              gap='0.5rem'>
-              <CardText
-                fontWeight='600'>
-                Веб разработка
-              </CardText>
-              <CardText>
-                John.D
-              </CardText>
-            </Box>
-          </CardTitle>
-          <CardInfo>
-            <CardText 
-              fontSize='0.6rem'
-              fontWeight='600'>
-                Текущая неделя 3
-            </CardText>
-            <CardText
-              fontSize='0.6rem'>
-          Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam. At tortor porttitor quis maecenas. 
-            </CardText>
-            <StyledLink to={location.pathname + '/tasks'}>
-          Перейти к заданиям
-            </StyledLink>
-          </CardInfo>
-        </Card>
-        <Card>
-          <CardTitle>
-            <img src={subject}/>
-            <Box 
-              padding='0'
-              gap='0.5rem'>
-              <CardText
-                fontWeight='600'>
-                Веб разработка
-              </CardText>
-              <CardText>
-                John.D
-              </CardText>
-            </Box>
-          </CardTitle>
-          <CardInfo>
-            <CardText 
-              fontSize='0.6rem'
-              fontWeight='600'>
-                Текущая неделя 3
-            </CardText>
-            <CardText
-              fontSize='0.6rem'>
-          Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam. At tortor porttitor quis maecenas. 
-            </CardText>
-            <StyledLink to={location.pathname + '/tasks'}>
-          Перейти к заданиям
-            </StyledLink>
-          </CardInfo>
-        </Card>
+        {
+          role == 'student' && 
+            <>
+              {
+                disciplines.map((discipline,i) => (
+                  <DisciplineCard
+                    id={i}
+                    key={discipline.name}
+                    title={discipline.name}/>
+                ))
+              }
+            </>
+        }
+        {
+          role == 'teacher' && 
+          <>
+            {
+              disciplines.map((discipline,i) => (
+                <DisciplineCard
+                  id={i}
+                  key={discipline.name}
+                  title={discipline.name}/>
+              ))
+            }
+          </>
+        }
       </Wrapper>
     </Layout>
   );

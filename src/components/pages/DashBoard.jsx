@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Calendar} from 'antd';
+import { useState,useEffect } from 'react';
 
 import Layout from '../Layout';
 import spacings from '../constants/spacings';
 import {DailyStatus} from '../atoms';
+import MobileDailyStatus from '../organisms/MobileDailyStatus';
 
 const Content = styled.div`
 	display:flex;
@@ -47,16 +49,32 @@ const SubTitle = styled.div`
 	}
 `;
 function DashBoard() {
+  const [windowWidth,setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize',handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  },[windowWidth]);
   return (
     <Layout pageTitle='Расписание'>
       <Content>
-        <DateHeader className='date__header'>
-          <DateInterface>
-            <SubTitle>Задания</SubTitle>
-          </DateInterface>
-        </DateHeader>
-        <Calendar 
-          dateCellRender={(date) => <DailyStatus date={date}/>}/>
+        {windowWidth > 660 ?
+          <>
+            <DateHeader className='date__header'>
+              <DateInterface>
+                <SubTitle>Задания</SubTitle>
+              </DateInterface>
+            </DateHeader>
+            <Calendar 
+              dateCellRender={(date) => <DailyStatus date={date}/>}/>
+          </>
+          :
+          <MobileDailyStatus/>}
       </Content>
     </Layout>
 		

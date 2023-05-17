@@ -11,12 +11,20 @@ const TabInfo = styled(Text)`
     padding:10px;
 `;
 
+const TabBody = styled(Box)`
+    width:70%;
+    border-radius:18px;
+    background-color:${colors.boxBackground.firstColor};
+
+    @media(max-width:760px){
+      width:92%;
+    }
+`;
+
 
 function TabItems({rows}) {
   return (
-    <Box width='70%'
-      borderRadius='18px'
-      backgroundColor={colors.boxBackground.firstColor}>
+    <TabBody>
       {
         rows.map((info) => (
           <Box flexDirection='row'
@@ -24,14 +32,14 @@ function TabItems({rows}) {
             width='100%'
             key={info.key}>
             <Text fontWeight='400'
-              fontSize='0.9rem'>{info.rowLabel}</Text>
+              fontSize='0.7rem'>{info.rowLabel}</Text>
             <TabInfo width='60%'
               fontWeight='400'
-              fontSize='0.9rem'>{info.rowInfo}</TabInfo>
+              fontSize='0.7rem'>{info.rowInfo}</TabInfo>
           </Box>
         ))
       }
-    </Box>
+    </TabBody>
   );
 }
 

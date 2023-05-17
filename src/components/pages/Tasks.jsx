@@ -1,24 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Link, useLocation} from 'react-router-dom';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { useParams} from 'react-router-dom';
+import { getDoc,doc,updateDoc, arrayUnion, arrayRemove} from 'firebase/firestore';
+import { uploadBytes, ref, deleteObject } from 'firebase/storage';
+import { useEffect,useState,useContext } from 'react';
+import { Form, Input,Button,Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
-import { storage } from '../../firebase';
+import {db,storage} from '../../firebase';
+import { AuthContext } from '../../context/AuthContext';
 import Layout from '../Layout';
 import { Box,Text } from '../atoms';
-import colors from '../constants/colors';
-import { useEffect } from 'react';
-import { useState } from 'react';
-
-const Week = styled.div`
-    width:100%;
-    background-color:${colors.boxBackground.firstColor};
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding:24px;
-    border-radius:24px;
-`;
+import Task from '../organisms/Task';
 
 const Title = styled(Text)`
     font-size:1.4rem;
@@ -27,50 +20,85 @@ const Title = styled(Text)`
     text-align:left;
 `;
 
-const BigText = styled(Text)`
-    font-size:1.1rem;
-    font-weight:500;
+const StyledForm = styled(Form)`
+    display:flex;
     width:100%;
-    text-align:left;
+    justify-content:flex-start;
+    gap:25px;
 `;
 
-const SmallText = styled(Text)`
-    font-size:0.9rem;
-    font-weight:400;
-    width:100%;
-    text-align:left;
-`;
+const Tasks = () => { 
+  const [lesson,setLesson] = useState('');
+  const {id} = useParams();
+  const {currentUser} = useContext(AuthContext);
+  const [tasks,setTasks] = useState([]);
+  const [role,setRole] = useState('');
+  const [form] = Form.useForm();
+  const [material,setMaterial]= useState(null);
+  const [lessonObj,setLessonObj] = useState({});
 
-const StyledLink = styled(Link)`
-  font-size:0.9rem;
-  font-weight:400;
-  text-decoration:none;
-  color:#3950C9;
-`;
-const Tasks = () => {
-  const location = useLocation();
-  const [materials,setMaterials] = useState([]);
-  const [downloadUrl,setDownloadUrl] = useState('');
-  const listRef  = ref(storage,'studyMaterials/');
+  useEffect(() => {
+    const getData = async() => {
+      try {
+        const res = await getDoc(doc(db,'users',currentUser.uid));
+        const userData = await res.data();
+        //setTasks(userData?.lessons[id].tasks);
+        //setLesson(userData?.lessons[id].name.toLowerCase());
+        //setLessonObj(userData?.lessons[id]);
+        let list = [];
+        for (const item of userData.lessons){
+          const path = item.path;
+          const lessonId = path.split('/').pop();
+          const lesson = await getDoc(doc(db,'lessons',lessonId));
+          list.push(lesson.data());
+        }
+        setTasks(list[id].tasks);
+        setLesson(list[id].name.toLowerCase());
+        setLessonObj(list[id]);
+        setRole(userData?.role);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    currentUser.uid && getData();
+  },[currentUser.uid]);
+
+
   useEffect(()=> {
-    listAll(listRef)
-      .then((res) => setMaterials(res.items))
-      .catch((err) => console.log(err));
-  },[]);
+    setLesson(lesson);
+  },[lesson]);
+  console.log(lessonObj);
+  const handleAddTask = async() => {
+    const {week,description} = form.getFieldsValue(); 
+    const homeworkRef = ref(storage,`studyMaterials/${lessonObj.name.toLowerCase()}/${week}/material-for-week-${week}`);
+    let materialLink = `studyMaterials/${lessonObj.name}/${week}`;
+    if(material == null) return;
 
+    let newTask = {
+      week,
+      materialLink,
+      description
+    };
 
-  const getFile = (name) =>  {
-    getDownloadURL(ref(storage,`studyMaterials/${name}`))
-      .then((url) => setDownloadUrl(url))
-      .catch(err => console.log(err));
+    await uploadBytes(homeworkRef,material);
+    await updateDoc(doc(db,'lessons',lessonObj.uid),{
+      tasks:arrayUnion(newTask)
+    });
+    window.location.reload();
   };
 
-  useEffect(()=> {
-    if(downloadUrl !== downloadUrl){
-      console.log('pizdec');
-      setDownloadUrl(downloadUrl);
+  const handleDeleteTask = async(task,i) => {
+    try {
+      await updateDoc(doc(db,'lessons',lessonObj.uid),{
+        tasks:arrayRemove(task)
+      });
+      window.location.reload();
+      await deleteObject(ref(storage,`studyMaterials/${lessonObj.name}/${i+1}/material-for-week-${i+1}`));
+    } catch (error) {
+      console.log(error);
     }
-  },[downloadUrl]);
+
+  };
 
   return (
     <Layout pageTitle='Задания'>
@@ -78,61 +106,74 @@ const Tasks = () => {
         gap='1rem'
         width='95%'>
         <Title>
-            Веб разработка
+          {lesson}
         </Title>
-        <Week>
-          <BigText>1 неделя</BigText>
-          <BigText>Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam.</BigText>
-          <SmallText>
-            Материалы:
-          </SmallText>
-          {materials.map((item) => 
-            <a href={downloadUrl}
-              rel='noreferrer'
-              target='_blank'
-              key={item.name}
-              onClick={getFile(item.name)}>
-              {item.name}
-            </a>)}
-          <SmallText>
-            Тест
-          </SmallText>
-          <StyledLink to={location.pathname + '/quiz'}>
-            Тест 1
-          </StyledLink>
-          <SmallText>
-            Домашнее задание
-          </SmallText>
-          <StyledLink to={location.pathname +'/homework'}>
-            Загрузить ДЗ
-          </StyledLink>
-        </Week>
-        <Week>
-          <BigText>
-            2 неделя
-          </BigText>
-          <BigText>
-            Lorem ipsum dolor sit amet consectetur. Sit quam duis pharetra leo ut quam.
-          </BigText>
-          <SmallText>
-            Материалы:
-          </SmallText>
-          <StyledLink>
-            Лекция1.pdf
-          </StyledLink>
-          <SmallText>
-            Тест
-          </SmallText>
-          <StyledLink>
-            Тест 1
-          </StyledLink>
-          <SmallText>
-            Домашнее задание
-          </SmallText>
-          <StyledLink>
-            Загрузить ДЗ
-          </StyledLink>
-        </Week>
+        {
+          role == 'teacher' && 
+          <StyledForm
+            form={form}
+            onFinish={handleAddTask}>
+            <Form.Item
+              label='Week'
+              name='week'>
+              <Input/>
+            </Form.Item>
+
+            <Form.Item
+              label='Description'
+              name='description'>
+              <Input.TextArea rows={2}
+                cols={32}/>
+            </Form.Item>
+
+            <Upload name='file'
+              onChange={(e)=> setMaterial(e.file)}>
+              <Button icon={<UploadOutlined/>}>Click to upload</Button>
+            </Upload>
+
+            <Form.Item wrapperCol={{ offset: 16, span: 12 }}>
+              <Button type='primary'
+                htmlType='submit'>
+                    Add task
+              </Button>
+            </Form.Item>
+          </StyledForm>
+        }
+        {
+          role == 'student' &&
+           <>
+             {
+               tasks?.map((task) => (
+                 <Task
+                   role={role}
+                   materialsUrl={task.materials}
+                   lesson={lesson}
+                   key={task.name}
+                   week={task.week}
+                   description={task?.description}/>
+               ))
+             }          
+           </>
+        }
+        {
+          role == 'teacher' && 
+          <>
+            {
+              tasks?.map((task,i) => (
+                <>
+                  <Task
+                    role={role}
+                    materialsUrl={task.materialLink}
+                    lesson={lesson}
+                    key={task.name}
+                    week={task.week}
+                    description={task?.description}/>
+                  <Button onClick={() => handleDeleteTask(task,i)}>Delete</Button>
+                </>
+              ))
+            }
+          </>
+        }
       </Box>
     </Layout>
   );

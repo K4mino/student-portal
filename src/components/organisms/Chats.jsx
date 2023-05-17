@@ -4,6 +4,7 @@ import { Input as AntdInput} from 'antd';
 import {SearchOutlined} from '@ant-design/icons';
 import {BsPencilSquare} from 'react-icons/bs';
 import {collection,getDocs,getDoc,query,where,doc,setDoc, updateDoc, serverTimestamp,onSnapshot} from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AuthContext } from '../../context/AuthContext';
 import { db } from '../../firebase';
@@ -12,12 +13,20 @@ import colors from '../constants/colors';
 import spacings from '../constants/spacings';
 import profileImg from '../../images/profile.png';
 import { ChatContext } from '../../context/ChatContext';
+import { selectUser } from '../selectors/chatSelector';
+import { setUser, toggleChat } from '../reducers/chat';
 
 const Wrapper = styled.div`
     width:25%;
     display:flex;
     flex-direction:column;
     gap:1rem;
+
+    @media(max-width:660px){
+      &{
+        width:90%;
+      }
+    }
 `;
 
 const Searchbar = styled.div`
@@ -47,7 +56,6 @@ const DialogList = styled.div`
     flex-direction:column;
     gap:0.5rem;
     border-radius:32px;
-    width:100%;
     padding:${spacings.small};
 `;
 
@@ -72,11 +80,11 @@ const Dialog = styled.div`
 
 const Chats = () => {
   const [userName,setUserName] = useState('');
-  const [user,setUser] = useState(null);
+  const {user} = useSelector(selectUser);
   const {currentUser}= useContext(AuthContext);
   const [chats,setChats] = useState([]);
   const {dispatch} = useContext(ChatContext);
-
+  const dispatchStore = useDispatch();
 
   useEffect(() => {
     const getChats = () => {
@@ -98,7 +106,7 @@ const Chats = () => {
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        setUser(doc.data());
+        dispatchStore(setUser(doc.data()));
       });
       console.log(user);
     } catch (error) {
@@ -139,8 +147,8 @@ const Chats = () => {
     } catch (error) {
       console.log(error);
     }
-  
-    setUser(null);
+    dispatchStore(toggleChat());
+    dispatchStore(setUser(null));
     setUserName('');
   };
 
@@ -169,7 +177,6 @@ const Chats = () => {
               width='100%'
               textAlign='left'
               fontSize='0.5rem'>
-                  Loremsaiasdm asdsdq 
             </Text>
           </Box>
         </Dialog>}

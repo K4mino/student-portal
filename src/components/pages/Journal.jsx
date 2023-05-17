@@ -16,6 +16,11 @@ const Wrapper = styled.div`
     grid-template-columns:1fr 1fr 1fr;
     gap:1rem;
     width:100%;
+
+    @media(max-width:660px){
+      grid-template-columns:1fr;
+      width:90%;  
+    }
 `;
 
 const Card = styled.div`
@@ -70,7 +75,7 @@ const Journal = () => {
     <Layout pageTitle='Журнал'>
       <Wrapper>
         {
-          grades.map((item) => (
+          grades?.map((item) => (
             <Card key={item.subject}>
               <Box
                 flexDirection='row'

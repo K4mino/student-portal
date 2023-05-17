@@ -36,14 +36,22 @@ const Wrapper = styled.div`
     position:relative;
     margin-bottom:1.5rem;
     width:40%;
+
+    @media(max-width:770px){
+      &{
+        display:none;
+      }
+    }
 `;
 
-function Searchbar() {
+function Searchbar({shouldShowSearch}) {
   return (
     <Wrapper>
-      <SearchInput size='large'
-        placeholder='Поиск'/>
-      <Icon/>
+      {shouldShowSearch &&
+        <>
+          <SearchInput size='large'
+            placeholder='Поиск' /><Icon />
+        </>}
     </Wrapper>
   );
 }

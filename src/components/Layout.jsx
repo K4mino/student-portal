@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import {Box} from './atoms';
 import {Header,RightBar,SideBar} from './organisms';
@@ -9,16 +8,18 @@ const Wrapper = styled.div`
 	display:flex;
 	justify-content:space-between;
 	height:100vh;
+	overflow-x:hidden;
 `;
 
 const Content = styled.div`
 	display:flex;
 	width:85vw;
 	flex-direction:column;
-
+	overflow-x:hidden;
+	
 	@media(max-width:770px){
 		&{
-			width:100vw;
+			width:100%;
 		}
 	}
 `;
@@ -27,6 +28,14 @@ const Main = styled.div`
 	display:flex;
 	position:relative;
 	padding:0 15px;
+
+	@media(max-width:770px){
+		&{	
+			width:100%;
+			padding:0;
+			justify-content:center;
+		}
+	}
 `;
 
 const SideBarWrapper = styled.div`
@@ -41,8 +50,7 @@ const SideBarWrapper = styled.div`
 	}
 `;
 
-function Layout({children,pageTitle}) {
-  const isOpen = useSelector((state) => state?.rightBar?.isOpen);
+function Layout({children,pageTitle,shouldShowSearch}) {
 
   return (
     <Wrapper>
@@ -50,9 +58,10 @@ function Layout({children,pageTitle}) {
         <SideBar/>
       </SideBarWrapper>
       <Content className='layout__content'>
-        <Header pageTitle={pageTitle}/>
+        <Header pageTitle={pageTitle}
+          shouldShowSearch={shouldShowSearch}/>
         <Main>
-          <Box width={isOpen ? '69%' : '95%'}
+          <Box width='95%'
             className='dynamic__content'>
             {children}
           </Box>

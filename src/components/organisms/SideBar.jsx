@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {BsXLg} from 'react-icons/bs';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { getDoc,doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 import logo from '../../images/sidebarlogo.png';
 import Img from '../atoms/Img';
 import {Text,Box} from '../atoms';
 import colors from '../constants/colors';
 import navigation from '../utils/nav';
-
+import { teacherNavigation } from '../utils/nav';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const StyledLink = styled(NavLink)`
     display:flex;
@@ -61,10 +65,11 @@ const BurgerMenu = styled(Box)`
 	  padding:0;
     top:5px;
     left:5px;
+    z-index:99;
 
 	@media(max-width:770px){
 		&{
-			display:block;
+      ${({isMobileMenuActive}) => isMobileMenuActive ? 'display:block;' : 'display:none;'}
 		}
 	}
 `;
@@ -80,10 +85,24 @@ const Bar = styled.span`
 
 function SideBar() {
   const [isMobileMenuActive,setIsMobileMenuActive] = useState(false);
-  
+  const {currentUser} = useContext(AuthContext);
+  const [role, setRole] = useState('');
+  useEffect(() => {
+    const getData = async() => {
+      try {
+        const res = await getDoc(doc(db,'users',currentUser.uid));
+        const userData = await res.data();
+        setRole(userData.role);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    currentUser.uid && getData();
+  },[currentUser.uid]);
   return (
     <>
-      <BurgerMenu 
+      <BurgerMenu
+        isMobileMenuActive={isMobileMenuActive}
         onClick={() => setIsMobileMenuActive(!isMobileMenuActive)}>
         <Bar/>
         <Bar/>
@@ -98,17 +117,40 @@ function SideBar() {
           src={logo}
           alt='logo' />
         {
-          navigation.map((nav,) => {
-            const Icon = nav.icon; 
-            return (
-              <StyledLink 
-                key={nav.icon}
-                to={nav.path}>
-                <Icon color={nav.color}/>
-                <Text fontSize='0.8rem'>{nav.label}</Text>
-              </StyledLink>
-            );
-          })
+          role == 'student' &&
+          <>
+            {
+              navigation.map((nav,) => {
+                const Icon = nav.icon; 
+                return (
+                  <StyledLink 
+                    key={nav.icon}
+                    to={nav.path}>
+                    <Icon color={nav.color}/>
+                    <Text fontSize='0.8rem'>{nav.label}</Text>
+                  </StyledLink>
+                );
+              })
+            }
+          </>
+        }
+        {
+          role == 'teacher' &&
+          <>
+            {
+              teacherNavigation.map((nav,) => {
+                const Icon = nav.icon; 
+                return (
+                  <StyledLink 
+                    key={nav.icon}
+                    to={nav.path}>
+                    <Icon color={nav.color}/>
+                    <Text fontSize='0.8rem'>{nav.label}</Text>
+                  </StyledLink>
+                );
+              })
+            }
+          </>
         }
       </Nav>
     </>

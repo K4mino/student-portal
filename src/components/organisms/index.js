@@ -8,3 +8,6 @@ export * from './SideBar';
 export * from './TabItems';
 export * from './Chats';
 export * from './Messages';
+export * from './DisciplineCard';
+export * from './Book';
+export * from './BookList';

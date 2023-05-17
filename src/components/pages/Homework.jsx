@@ -10,6 +10,7 @@ import { storage } from '../../firebase';
 import { Box, Text } from '../atoms';
 import colors from '../constants/colors';
 import Layout from '../Layout';
+import { useParams } from 'react-router-dom';
 
 const Title = styled(Text)`
     font-size:1.4rem;
@@ -37,6 +38,7 @@ const Button = styled.div`
     width:200px;
     text-align:center;
     cursor:pointer;
+    margin-top:20px;
 
     &:hover{
         background-color:#2E5BF0;
@@ -60,10 +62,11 @@ const Vector = styled.img`
 const Homework = () => {
   const [selectedFile,setSelectedFile] = useState(null);
   const {Dragger} = Upload;
+  const {lesson,week} = useParams();
 
   const uploadHomework = () => {
     if(selectedFile == null) return;
-    const homeworkRef = ref(storage,`homeworks/${selectedFile?.name}`);
+    const homeworkRef = ref(storage,`homeworks/${lesson}/${week}/${selectedFile?.name}`);
     uploadBytes(homeworkRef,selectedFile)
       .then(()=>alert('Success'))
       .catch((err)=> alert(err))
@@ -85,7 +88,7 @@ const Homework = () => {
           </Text>
           <Text 
             textAlign='left'>
-              Дедлайн- 10 Апреля 11:59
+              Дедлайн- 27 Апреля 11:59
           </Text>
           <Text 
             textAlign='left' 
